@@ -1,0 +1,5 @@
+dpdk (2.0.0-1~rc9) wily; urgency=low
+
+  * Initial release
+
+ -- Stefan Bader <stefan.bader@canonical.com>  Mon, 01 Jun 2015 18:46:38 +0200

@@ -1,0 +1,171 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+#DH_VERBOSE = 1
+
+# see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+# see FEATURE AREAS in dpkg-buildflags(1)
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to append CFLAGS
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# package maintainers to append LDFLAGS
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+DPDK_TARGET  = "$(shell uname -m)-native-linuxapp-gcc"
+DPDK_DEFAULT = "$(shell uname -m)-default-linuxapp-gcc"
+
+clean:
+	dh_testdir
+	rm -rf debian/build debian/tmp
+	dh_clean
+
+build-indep:
+	dh_testdir
+	make O=debian/build/doc T=$(DPDK_TARGET) config
+	sed -ri -e 's,(RTE_MACHINE=).*,\1"default",' \
+	        -e 's,(RTE_APP_TEST=).*,\1n,' \
+	        -e 's,(LIBRTE_VHOST=).*,\1y,' \
+	        -e 's,(CONFIG_RTE_EAL_IGB_UIO=).*,\1n,' \
+	        -e 's,(CONFIG_RTE_LIBRTE_KNI=).*,\1n,' \
+	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
+		-e 's,(RTE_BUILD_SHARED_LIB=).*,\1y,' \
+	        -e 's,(CONFIG_RTE_LIBNAME=).*,\1"dpdk",' \
+	        debian/build/doc/.config
+	make O=debian/build/doc doc
+
+build-arch:
+	dh_testdir
+	make O=debian/build/static T=$(DPDK_TARGET) config
+	sed -ri -e 's,(RTE_MACHINE=).*,\1"default",' \
+	        -e 's,(RTE_APP_TEST=).*,\1n,' \
+	        -e 's,(LIBRTE_VHOST=).*,\1y,' \
+	        -e 's,(CONFIG_RTE_EAL_IGB_UIO=).*,\1n,' \
+	        -e 's,(CONFIG_RTE_LIBRTE_KNI=).*,\1n,' \
+	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
+	        -e 's,(CONFIG_RTE_LIBNAME=).*,\1"dpdk",' \
+	        debian/build/static/.config
+	make O=debian/build/static
+	#
+	# Unfortunately, for some weird reason, the decision about having
+	# static or shared libraries is made for the whole build, which then
+	# produces only .a or .so files (but not both).
+	# And the target layout for target selection has no field for the
+	# type of library.
+	# FIXME: (?) Right now I hack this by doing a second build which only
+	# differs in the selection of shared libs. 
+	# Shared libs should be default, so the previous static build is only
+	# used to get static libraries.
+	cp -a debian/build/static debian/build/shared
+	sed -ri 's,(RTE_BUILD_SHARED_LIB=).*,\1y,' \
+	        debian/build/shared/.config
+	make O=debian/build/shared build
+
+build: build-arch build-indep
+
+binary-indep: PACKAGE_NAME=dpdk-doc
+binary-indep: DOCDIR=usr/share/doc/dpdk
+binary-indep: export DH_OPTIONS=--indep
+binary-indep:
+	dh_testroot
+	dh_prep
+	dh_testdir
+	dh_installdirs
+	dh_installdocs
+	dh_installchangelogs
+	dh_lintian
+	# Package: dpdk-doc
+	cp -a debian/build/doc/doc/html/* \
+	      debian/$(PACKAGE_NAME)/$(DOCDIR)/
+	cp -a debian/build/doc/doc/*/*/*pdf \
+	      debian/$(PACKAGE_NAME)/$(DOCDIR)/guides/
+	rm -rf debian/dpdk-doc/$(DOCDIR)/*/*/.{build,doc}*
+	rm -rf debian/dpdk-doc/$(DOCDIR)/*/.{build,doc}*
+	rm -rf debian/dpdk-doc/$(DOCDIR)/*/*/*.md5
+	ln -sf /usr/share/javascript/jquery/jquery.js \
+	       debian/dpdk-doc/$(DOCDIR)/api/jquery.js
+	ln -sf /usr/share/javascript/jquery/jquery.js \
+	       debian/dpdk-doc/$(DOCDIR)/guides/_static/jquery.js
+	ln -sf /usr/share/javascript/underscore/underscore.js \
+	       debian/dpdk-doc/$(DOCDIR)/guides/_static/underscore.js
+	dh_link
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary-arch: DPDKDIR=usr/share/dpdk
+binary-arch: LIBDIR=usr/lib/$(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+binary-arch: export DH_OPTIONS=--arch
+binary-arch:
+	dh_testroot
+	dh_prep
+	dh_testdir
+	make O=debian/build/shared DESTDIR=debian/build/shared-root
+	make O=debian/build/static DESTDIR=debian/build/static-root
+	dh_installdirs
+	dh_install
+	dh_installdocs
+	dh_installchangelogs
+	dh_lintian
+	dh_systemd_enable
+	dh_installinit --no-start --no-restart-on-upgrade
+	dh_systemd_start --no-start --no-restart-on-upgrade
+	# Package: dpdk (runtime)
+	cp debian/build/shared-root/shared/app/testpmd debian/dpdk/usr/bin
+	mv debian/dpdk/$(DPDKDIR)/tools/dpdk_nic_bind.py \
+	   debian/dpdk/sbin/dpdk_nic_bind
+	ln -s /sbin/dpdk_nic_bind debian/dpdk/$(DPDKDIR)/tools/dpdk_nic_bind.py
+	cp debian/dpdk.interfaces debian/dpdk/etc/dpdk/interfaces
+	# Package: libdpdk0 (bare runtime libs)
+	mkdir -p debian/libdpdk0/$(LIBDIR)
+	cp debian/build/shared-root/shared/lib/libdpdk.so.* \
+	   debian/libdpdk0/$(LIBDIR)/
+	# Package: libdpdk-dev (bare headers and devel libs)
+	mkdir -p debian/libdpdk-dev/$(LIBDIR)
+	ln -s debian/libdpdk0/$(LIBDIR)/libdpdk.so.* \
+	      debian/libdpdk-dev/$(LIBDIR)/libdpdk.so
+	# In case this should ever go back shipping the individual libs...
+	#for lib in $$(ls -1 debian/libdpdk0/$(LIBDIR)/*.so.*); do \
+	#	BN=$$(basename $$lib); \
+	#	SN=$$(echo $$BN | sed -e 's/\.[0-9]*$$//'); \
+	#	ln -s $$BN debian/libdpdk-dev/$(LIBDIR)/$$SN; \
+	#done
+	cp debian/build/static-root/static/lib/libdpdk.a \
+	   debian/libdpdk-dev/$(LIBDIR)/
+	cp -a debian/build/shared-root/shared/include \
+	      debian/libdpdk-dev/usr/include/dpdk
+	# Package: dpdk-dev
+	cp -a debian/build/shared-root/shared \
+	      debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)
+	rm -rf debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)/app \
+	       debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)/include \
+	       debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)/lib
+	# Now replace the libdir with a softlink to the distro lib-dir.
+	ln -s /$(LIBDIR) debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)/lib
+	ln -s /usr/include/dpdk \
+	      debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)/include
+	# Place to "default" config into the main dpdk directory.
+	# FIXME: Is anything really using this?
+	ln -s $(DPDK_DEFAULT)/.config debian/dpdk-dev/$(DPDKDIR)/config
+	dh_python2
+	dh_perl
+	dh_link
+	dh_compress
+	dh_fixperms
+	dh_strip
+	dh_makeshlibs
+	dh_shlibdeps
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-arch binary-indep
+

@@ -1,0 +1,113 @@
+#!/bin/sh
+#
+# dpdk-init: startup script to initialize a dpdk runtime environment
+#
+# Copyright 2015 Canonical Services, Stefan Bader <stefan.bader@canonical.com>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License version 3,
+#    as published by the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+set -e
+
+DPDK_BIND="/sbin/dpdk_nic_bind"
+
+
+#
+# The DPDK library also will use the first mounted instance it finds. So
+# if there is already one, there is no need to create another.
+#
+hugetlbfs_mountpoint() {
+	echo "$(cat /proc/mounts|grep hugetlbfs|head -1|cut -d" " -f2)"
+}
+
+mount_hugetlbfs() {
+	if [ "$(hugetlbfs_mountpoint)" != "" ]; then
+		return 0
+	fi
+	MNT=/dev/hugepages
+
+	if [ ! -e $MNT ]; then
+		mkdir $MNT
+		if [ $? -ne 0 ]; then
+			echo "Could not create directory $MNT!" >&2
+			return 1
+		fi
+	fi
+	mount -thugetlbfs hugetlbfs $MNT
+
+	return $?
+}
+
+#
+# Reserve a certain amount of hugepages (defined in /etc/dpdk.conf)
+#
+setup_hugepages() {
+	if [ ! -r /etc/dpdk/dpdk.conf ]; then
+		return 1
+	fi
+	. /etc/dpdk/dpdk.conf
+
+	MMDIR=/sys/kernel/mm/hugepages/hugepages-2048kB
+	if [ "$NR_2M_PAGES" != "" -a $NR_2M_PAGES -gt 0 ]; then
+		if [ -d $MMDIR -a -w $MMDIR/nr_hugepages ]; then
+			echo $NR_2M_PAGES >$MMDIR/nr_hugepages
+		fi
+	fi
+
+	return 0
+}
+
+#
+# Allow NICs to be automatically bound to DPDK compatible drivers on boot.
+#
+bind_interfaces() {
+	if [ ! -r /etc/dpdk/interfaces ]; then
+		return 0
+	fi
+	grep -v '^[ \t]*#' /etc/dpdk/interfaces | while read BUS ID MOD; do
+		if [ "$BUS" != "pci" ]; then
+			continue
+		fi
+		MOD="$(echo $MOD | tr '-' '_')"
+		CUR="$(basename $(readlink /sys/bus/$BUS/devices/$ID/driver))"
+		CUR="$(echo $CUR | tr '-' '_')"
+		if [ "$MOD" != "$CUR" ]; then
+			echo "Reassigning pci:$ID to $MOD"
+			modprobe -q $MOD || true
+			$DPDK_BIND -b $MOD $ID
+		fi
+	done
+}
+
+
+
+case "$1" in
+start)
+	mount_hugetlbfs
+	setup_hugepages
+	bind_interfaces
+	;;
+stop)
+	;;
+reload|force-reload)
+	setup_hugepages
+	bind_interfaces
+	;;
+status)
+	$DPDK_BIND --status
+	;;
+*)
+    echo "Usage: $0 {start|stop|reload|force-reload|status}"
+    exit 1
+    ;;
+esac
+
