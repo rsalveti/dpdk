@@ -1,0 +1,52 @@
+From: Stefan Bader <stefan.bader@canonical.com>
+Date: Fri, 26 Jun 2015 08:21:09 +0200
+Subject: [upstream] build: Set soabi for the combined shared library
+
+Currently the build for the combined shared library does not set
+any ABI version. Since this deviates from upstream we start with
+version 0.
+
+Not yet submitted upstream, but should.
+
+Signed-off-by: Stefan Bader <stefan.bader@canonical.com>
+
+Index: dpdk-2.0.0/mk/rte.sharelib.mk
+===================================================================
+--- dpdk-2.0.0.orig/mk/rte.sharelib.mk	2015-04-03 16:13:45.000000000 +0200
++++ dpdk-2.0.0/mk/rte.sharelib.mk	2015-06-12 10:34:56.901804534 +0200
+@@ -33,10 +33,12 @@ include $(RTE_SDK)/mk/internal/rte.build
+ 
+ # VPATH contains at least SRCDIR
+ VPATH += $(SRCDIR)
++# The shared libs abi number.
++LIBABIVER := 0
+ 
+ ifeq ($(RTE_BUILD_COMBINE_LIBS),y)
+ ifeq ($(RTE_BUILD_SHARED_LIB),y)
+-LIB_ONE := lib$(RTE_LIBNAME).so
++LIB_ONE := lib$(RTE_LIBNAME).so.$(LIBABIVER)
+ else
+ LIB_ONE := lib$(RTE_LIBNAME).a
+ endif
+@@ -51,10 +53,10 @@ ifeq ($(LINK_USING_CC),1)
+ # Override the definition of LD here, since we're linking with CC
+ LD := $(CC) $(CPU_CFLAGS)
+ O_TO_S = $(LD) $(call linkerprefix,$(CPU_LDFLAGS)) \
+-	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
++	-shared $(OBJS) -Wl,-soname,$(LIB_ONE) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
+ else
+ O_TO_S = $(LD) $(CPU_LDFLAGS) \
+-	-shared $(OBJS) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
++	-shared $(OBJS) -Wl,-soname,$(LIB_ONE) -o $(RTE_OUTPUT)/lib/$(LIB_ONE)
+ endif
+ 
+ O_TO_S_STR = $(subst ','\'',$(O_TO_S)) #'# fix syntax highlight
+@@ -80,6 +82,8 @@ ifeq ($(RTE_BUILD_SHARED_LIB),y)
+ $(LIB_ONE): FORCE
+ 	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
+ 	$(O_TO_S_DO)
++	@[ -L $(RTE_OUTPUT)/lib/$(basename $(LIB_ONE)) ] || \
++		ln -s $(LIB_ONE) $(RTE_OUTPUT)/lib/$(basename $(LIB_ONE))
+ else
+ $(LIB_ONE): FORCE
+ 	@[ -d $(dir $@) ] || mkdir -p $(dir $@)

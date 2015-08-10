@@ -1,0 +1,30 @@
+dpdk for Debian
+---------------
+
+This package is currently compiled for the lowest possible CPU requirements.
+Which still requires at least SSE3 to be supported by the CPU.
+
+dpdk (runtime):
+
+For runtime /etc/dpdk/interfaces holds a list of PCI devices to be assigned
+to DPDK compatible drivers and /etc/dpdk/dpdk.conf allows one to define the
+number of hugepages to be reserved at boot.
+
+dpdk-dev / libdpdk-dev:
+
+The minimum requirement for developing external applications is libdpdk-dev,
+which brings the headers and library files.
+In dpdk-dev is the upstream makefile environment together with example
+applications. To compile examples using the upstream environment, two
+variables have to be set (or passed to the make command):
+
+RTE_SDK=/usr/lib/dpdk
+RTE_MACHINE=$(uname -m)-default-linuxapp-gcc
+
+Alternatively /usr/include/dpdk/rte_config.h has to be pre-included
+and the linking may have to be done with "-ldpdk -ldl -lm -lpthread".
+
+CFLAGS  += -I/usr/include/dpdk -irte_config.h
+LDFLAGS += -ldpdk -ldl -lm -lpthread
+
+ -- Stefan Bader <stefan.bader@ubuntu.com>  Mon, 01 Jun 2015 18:46:38 +0200

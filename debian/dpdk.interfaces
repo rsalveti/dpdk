@@ -1,0 +1,7 @@
+#
+# <bus>		Currently (and maybe forever) only "pci" is supported
+# <id>		Device ID on the specified bus
+# <driver>	Driver to bind against (vfio-pci or uio-pci-generic)
+#
+# <bus> <id> <driver>
+# pci	0000:00:07.0	uio-pci-generic

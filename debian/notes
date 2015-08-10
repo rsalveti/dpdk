@@ -1,0 +1,76 @@
+Notes/thougts on packaging (needs to go before release):
+
+There is a .spec file in pdk which would indicate a layout like this for
+rpm based distros:
+
+Package: dpdk
+/usr/lib/dpdk/config
+/usr/lib/dpdk/tools/
+/usr/sbin/dpdk_nic_bind -> /usr/lib/dpdk/tools/dpdk_nic_bind.py
+/usr/bin/testpmd
+/etc/dpdk/interfaces (only with comments)
+/etc/init.d/dpdk
+/lib/systemd/system/dpdk.service
+/lib/dpdk/dpdk-init
+
+Package: dpdk-devel
+/usr/lib/dpdk/<arch>-native-linuxapp-gcc/include -> /usr/include/dpdk
+/usr/lib/dpdk/<arch>-native-linuxapp-gcc/lib/*.a
+/usr/lib/dpdk/<arch>-native-linuxapp-gcc/lib/*.so -> *.so.X
+/usr/lib/dpdk/<arch>-native-linuxapp-gcc/lib/*.so.X -> /usr/lib/*/
+/usr/lib/dpdk/<arch>-native-linuxapp-gcc/.config -> ../config
+/usr/lib/dpdk/mk/
+/usr/lib/dpdk/scripts/
+/usr/lib/dpdk/examples/
+/usr/include/dpdk
+
+Package: dpdk-doc
+/usr/share/doc/dpdk/
+/usr/share/doc/dpdk-doc/
+
+Package: libdpdk<ABI> (Multiarch)
+/usr/lib/*/
+
+For Debian packaging I would split the dpdk package into dpdk and libdpdk1.
+The latter would contain only the shared libraries. That "config" file is
+a cpp format file used for the build. Why that is required in the runtime
+part I do not understand... Tentatively I put it into dpdk-dev.
+
+The "native" in "<arch>-native-linuxapp-gcc" is actually a lie because the
+build is done with "default" (which means baseline CPU = SSE3). So I went
+for "default" there.
+
+The build produces about 32 sub libraries (most name librte_*, but one
+libethdev.*) and optionally one combined one which can be named as one
+likes. The only reason I can see for this is allowing smaller memory
+footprints when using shared libraries.
+
+The combined shared library is not build with an ABI version extension
+for some reason. Which seems wrong...
+*sigh* This is awful, those guys define an abi version for each individual
+little library independently. Guess that is the reason they avoided
+an abi number for the shared lib...
+
+The rpm spec places all headers into /usr/include. That is probably ok but
+it feels like spamming that place. Somehow following their examples an
+application would define the toolkit root anyway. Experimentally it seems
+okay to use a layout like this:
+/usr/share/dpdk/include
+/usr/share/dpdk/<arch>-<build>-linuxapp-gcc/include -> ../include
+
+Q: Is there a need for static libraries (.a)?
+The problem is that building the libraries produces either one or the other
+and the choice is encoded in the config which is used for building DPDK
+applications. Of course they could not use a standard method like pkg-config...
+
+Q: How could this be extended into supporting multiple optimization levels
+The whole current approach with the individual shared libraries lacks an
+extension to differentiate between optimization levels. Only for the
+combined lib it seems simple enough to tweak/rename things.
+Tentative idea: Produce different libdpdk packages which provide the same
+libdpdk but with different optimizations. At least the shared libs then
+can be replaced easily on target.
+
+Q: How do I do the right licence?
+There are GPL and LGPL lincence files in the source but the web page also
+mentions BSD licence.
