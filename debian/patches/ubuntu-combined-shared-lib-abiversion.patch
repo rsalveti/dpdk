@@ -1,14 +1,15 @@
-From: Stefan Bader <stefan.bader@canonical.com>
-Date: Fri, 26 Jun 2015 08:21:09 +0200
-Subject: [upstream] build: Set soabi for the combined shared library
-
-Currently the build for the combined shared library does not set
-any ABI version. Since this deviates from upstream we start with
-version 0.
-
-Not yet submitted upstream, but should.
-
-Signed-off-by: Stefan Bader <stefan.bader@canonical.com>
+Description: build: Set soabi for the combined shared library
+ Currently the build for the combined shared library does not set
+ any ABI version. Since this deviates from upstream we start with
+ version 0.
+ Probably it would be ok if upstream kept individual ABI versions
+ for each individual library. Then the combined one would have to
+ be incremented whenever any of those changes version.
+ Though to me it would feel more logical if there would be only
+ one ABI version for the whole set.
+Forwarded: Not yet. Needs discussion about library versioning.
+Author: Stefan Bader <stefan.bader@canonical.com>
+Last-Update: 2015-08-12
 
 Index: dpdk-2.0.0/mk/rte.sharelib.mk
 ===================================================================
