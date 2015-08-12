@@ -1,11 +1,10 @@
-From: Stefan Bader <stefan.bader@canonical.com>
-Subject: sdk: Delay library name config for extapps
-
-When building external applications the config will only
-be pulled in from a later makefile. Move the setup of
-the common library name until after that.
-
-Signed-off-by: Stefan Bader <stefan.bader@canonical.com>
+Description: sdk: Delay library name config for extapps
+ When building external applications the config will only
+ be pulled in from a later makefile. Move the setup of
+ the common library name until after that.
+Forwarded: Not yet. But should be.
+Author: Stefan Bader <stefan.bader@canonical.com>
+Last-Update: 2015-08-12
 
 Index: dpdk-2.0.0/mk/rte.vars.mk
 ===================================================================
