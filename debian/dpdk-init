@@ -2,7 +2,7 @@
 #
 # dpdk-init: startup script to initialize a dpdk runtime environment
 #
-# Copyright 2015 Canonical Services, Stefan Bader <stefan.bader@canonical.com>
+# Copyright 2015 Canonical Ltd., Stefan Bader <stefan.bader@canonical.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License version 3,
