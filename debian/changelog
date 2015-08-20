@@ -1,4 +1,4 @@
-dpdk (2.0.0-1~rc9) wily; urgency=low
+dpdk (2.0.0-0ubuntu1) wily; urgency=low
 
   * Initial release
 
