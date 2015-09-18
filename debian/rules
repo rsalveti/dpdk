@@ -152,7 +152,6 @@ binary-arch:
 	ln -s /usr/include/dpdk \
 	      debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)/include
 	# Place to "default" config into the main dpdk directory.
-	# FIXME: Is anything really using this?
 	ln -s $(DPDK_DEFAULT)/.config debian/dpdk-dev/$(DPDKDIR)/config
 	dh_python2
 	dh_perl

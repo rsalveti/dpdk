@@ -12,7 +12,7 @@ Vcs-Browser: http://www.dpdk.org/browse/dpdk/refs/
 
 Package: dpdk
 Section: devel
-Architecture: i386 amd64
+Architecture: amd64 i386
 Depends: ${shlibs:Depends}, libdpdk0 (= ${binary:Version}),
   ${misc:Depends}, ${python:Depends}, lsb-base (>= 3.2-14)
 Description: Data Plane Development Kit (runtime)
@@ -22,7 +22,7 @@ Description: Data Plane Development Kit (runtime)
 
 Package: dpdk-dev
 Section: devel
-Architecture: i386 amd64
+Architecture: amd64 i386
 Depends: libdpdk0 (= ${binary:Version}), ${misc:Depends}
 Description: Data Plane Development Kit (development files)
  DPDK is a set of libraries for fast packet processing. Applications run
