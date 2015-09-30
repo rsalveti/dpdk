@@ -12,6 +12,10 @@ Copyright: 2008-2014 Cisco Systems, Inc.
            2007      Nuova Systems, Inc.
            2014      IBM Corporation.
 License: BSD+GPLv2+LGPLv2
+ On Debian systems, the complete text of the BSD License can be
+ found in "/usr/share/common-licenses/BSD".
+ .
+ .
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or
