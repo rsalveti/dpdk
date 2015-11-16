@@ -11,7 +11,7 @@
 
 set -e
 
-PATH="/sbin:/bin"
+PATH="/sbin:/bin:/usr/bin"
 
 [ -d /lib/dpdk ] || exit 0
 
