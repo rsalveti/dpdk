@@ -1,3 +1,4 @@
+ubuntu-avoid-texlive-fonts-extra.patch
 ubuntu-fix-libname.patch
 ubuntu-combined-shared-lib-abiversion.patch
 ubuntu-fix-gcc5-ftbs.patch
