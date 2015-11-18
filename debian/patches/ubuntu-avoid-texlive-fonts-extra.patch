@@ -2,7 +2,8 @@ Description: Avoid build dependency on textlive-fonts-extra
  The tex sources seem to require this universe package to use
  DejaVuSansMono fonts. Replacing this with simple courier so
  we can drop the build-dependency.
- The resulting pdf documents seem to be 
+ The resulting pdf documents seem to be readable. Only the
+ commandline examples look a little smaller to me.
 Forwarded: No
 Author: Stefan Bader <stefan.bader@canonical.com>
 Last-Update: 2015-11-17
