@@ -1,3 +1,21 @@
+dpdk (2.0.0-0ubuntu2) xenial; urgency=low
+
+  * d/p/ubunut-avoid-texlive-fonts-extra, d/control:
+    Replace use of DejaVuSansMono by courier and drop dependency on the
+    texlive-fonts-extra package (which is in universe).
+  * d/watch added to allow use of uscan to check for upstream releases.
+  * d/dpdk-init: fix error if bash variables could not be resolved that
+    appeared as "[: -gt: unexpected operator" (had no functional impact)
+  * d/dpdk-init:
+    Replace use of head and cut (in /usr/bin) commands with sed (in /bin)
+    while also adding /usr/bin to the PATH used on direct /etc/init.d/dpdk
+    invocation. The PATH is only updated to be on the safe side, there
+    should be no other commands from /usr/bin used (LP: #1516543).
+  * d/t/test-mountpoint: add dep8 test to cover the issue of LP #1517075.
+  * d/dpdk-dev.install: Copy the SDK makefiles into place (LP: #1517075).
+
+ -- Stefan Bader <stefan.bader@canonical.com>  Tue, 17 Nov 2015 11:50:15 +0100
+
 dpdk (2.0.0-0ubuntu1) wily; urgency=low
 
   * Initial release (LP: #1487538)
