@@ -4,6 +4,8 @@ dpdk (2.0.0-0ubuntu2) xenial; urgency=low
     Replace use of DejaVuSansMono by courier and drop dependency on the
     texlive-fonts-extra package (which is in universe).
   * d/watch added to allow use of uscan to check for upstream releases.
+  * d/dpdk-init: fix error if bash variables could not be resolved that
+    appeared as "[: -gt: unexpected operator" (had no functional impact)
   * d/dpdk-init:
     Replace use of head and cut (in /usr/bin) commands with sed (in /bin)
     while also adding /usr/bin to the PATH used on direct /etc/init.d/dpdk
