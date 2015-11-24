@@ -9,6 +9,7 @@ Section: libs
 Homepage: http://www.dpdk.org
 Vcs-Git: git://dpdk.org/dpdk
 Vcs-Browser: http://www.dpdk.org/browse/dpdk/refs/
+Testsuite: autopkgtest
 
 Package: dpdk
 Section: devel
