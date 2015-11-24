@@ -1,0 +1,3 @@
+Tests: test-mountpoint
+Restrictions: allow-stderr, isolation-machine, needs-root
+Depends: dpdk, gawk, mount, systemd, sysvinit-utils

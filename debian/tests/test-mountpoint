@@ -1,0 +1,64 @@
+#!/bin/sh
+set -e
+
+checkstatus() {
+    MARK=${1}
+    COUNT=${2}
+    PRE=${3}
+    POST=${4}
+    echo "Status after ${MARK}"
+    echo "Status of the Service"
+    ${PRE} status "${POST}" || true
+
+    echo "Status of hugetlbfs mount points"
+    # this section is ok to create bad RCs when no mounts are available
+    set +e
+    grep hugetlbfs < /proc/mounts
+    htlbfscount=$(grep -c hugetlbfs < /proc/mounts)
+    set -e
+
+    if [ "${htlbfscount}" -eq "${COUNT}" ]; then
+        echo "Count (${htlbfscount}) as expected (${COUNT})"
+    else
+        echo "Count (${htlbfscount}) not as expected (${COUNT})"
+        exit 1
+    fi
+}
+
+resetservice() {
+    # stopping and resetting Service
+    systemctl stop dpdk.service
+    systemctl reset-failed dpdk.service
+
+    echo "Unmounting all potential hugetlbfs mounts"
+    awk '/hugetlbfs/ {print $2}' /proc/mounts | while read hugetlbmount; do
+        umount -v "$hugetlbmount"
+    done
+}
+
+checkinitstyle() {
+    # We want to verify that
+    # - initially out environment has no hugetlbfs mount
+    # - a system without hugetlbfs mount gets it mounted
+    # - a restart of the service does neither drop nor duplicate the mount
+    PRE=${1}
+    POST=${2}
+    TYPE=${3}
+    printf "\n\n### Checking Type %s ###\n" "${TYPE}"
+    resetservice
+    checkstatus "${TYPE}-BEGIN" 0 "${PRE}" "${POST}"
+    echo "### Starting Service ###"
+    ${PRE} start "${POST}"
+    checkstatus "${TYPE}-START" 1 "${PRE}" "${POST}"
+    echo "### Restarting Service ###"
+    ${PRE} restart "${POST}"
+    checkstatus "${TYPE}-RESTART" 1 "${PRE}" "${POST}"
+}
+
+# some had issues in the past caused by different environments, so we test all
+# Direct Calls
+checkinitstyle "/etc/init.d/dpdk" "" "Direct"
+# System V style init
+checkinitstyle "service dpdk" "" "SysV"
+# SystemD style init
+checkinitstyle "systemctl" "dpdk.service" "SystemD"
