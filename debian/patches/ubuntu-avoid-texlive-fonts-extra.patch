@@ -6,13 +6,11 @@ Description: Avoid build dependency on textlive-fonts-extra
  commandline examples look a little smaller to me.
 Forwarded: No
 Author: Stefan Bader <stefan.bader@canonical.com>
-Last-Update: 2015-11-17
+Last-Update: 2015-12-01
 
-Index: dpdk/doc/guides/conf.py
-===================================================================
---- dpdk.orig/doc/guides/conf.py	2015-11-17 11:16:46.427330439 +0100
-+++ dpdk/doc/guides/conf.py	2015-11-17 14:35:46.203281665 +0100
-@@ -52,7 +52,7 @@ latex_documents = [
+--- a/doc/guides/conf.py
++++ b/doc/guides/conf.py
+@@ -59,7 +59,7 @@
  # Latex directives to be included directly in the latex/pdf docs.
  latex_preamble = r"""
  \usepackage[utf8]{inputenc}
