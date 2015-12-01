@@ -34,7 +34,6 @@ build-indep:
 	        -e 's,(CONFIG_RTE_LIBRTE_KNI=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
 		-e 's,(RTE_BUILD_SHARED_LIB=).*,\1y,' \
-	        -e 's,(CONFIG_RTE_LIBNAME=).*,\1"dpdk",' \
 	        debian/build/doc/.config
 	make O=debian/build/doc doc-api-html doc-guides-html
 
@@ -47,7 +46,6 @@ build-arch:
 	        -e 's,(CONFIG_RTE_EAL_IGB_UIO=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_LIBRTE_KNI=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
-	        -e 's,(CONFIG_RTE_LIBNAME=).*,\1"dpdk",' \
 	        debian/build/static/.config
 	make O=debian/build/static
 	#
