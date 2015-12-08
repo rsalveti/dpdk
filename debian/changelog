@@ -1,3 +1,11 @@
+dpdk (2.0.0-0ubuntu1.1) wily; urgency=low
+
+  * Add SDK makefiles to dpdk-dev. This was accidentally ommited in
+    the initial upload (LP: #1517075).
+  * Fix missing path elements in the init script environment (LP: #1516543).
+
+ -- Stefan Bader <stefan.bader@canonical.com>  Tue, 08 Dec 2015 09:56:38 +0100
+
 dpdk (2.0.0-0ubuntu1) wily; urgency=low
 
   * Initial release (LP: #1487538)
