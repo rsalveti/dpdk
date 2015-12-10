@@ -36,7 +36,7 @@ build-indep:
 		-e 's,(RTE_BUILD_SHARED_LIB=).*,\1y,' \
 	        -e 's,(CONFIG_RTE_LIBNAME=).*,\1"dpdk",' \
 	        debian/build/doc/.config
-	make O=debian/build/doc doc
+	make O=debian/build/doc doc-api-html doc-guides-html
 
 build-arch:
 	dh_testdir
@@ -82,8 +82,6 @@ binary-indep:
 	# Package: dpdk-doc
 	cp -a debian/build/doc/doc/html/* \
 	      debian/$(PACKAGE_NAME)/$(DOCDIR)/
-	cp -a debian/build/doc/doc/*/*/*pdf \
-	      debian/$(PACKAGE_NAME)/$(DOCDIR)/guides/
 	rm -rf debian/dpdk-doc/$(DOCDIR)/*/*/.{build,doc}*
 	rm -rf debian/dpdk-doc/$(DOCDIR)/*/.{build,doc}*
 	rm -rf debian/dpdk-doc/$(DOCDIR)/*/*/*.md5
