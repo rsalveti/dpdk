@@ -1,3 +1,26 @@
+dpdk (2.2.0-0ubuntu1) xenial; urgency=low
+
+  * Merge from Upstream to DPDK 2.2
+    Remaining changes:
+    - Set soabi for the combined shared library
+  * Drop changes:
+    - configuring RTE_LIBNAME to dpdk as it is the upstream default now
+    - enabled formerly non building components as they build properly in 2.2
+    - d/p/ubunut-avoid-texlive-fonts-extra, d/control:
+      Replace use of DejaVuSansMono by courier and drop dependency on the
+      texlive-fonts-extra package (which is in universe).
+    - d/p/ubuntu-fix-gcc5-ftbs.patch no more needed with DPDK 2.2
+  * Added changes
+    - Disable CONFIG_RTE_NEXT_ABI as required for packaging (git 506f51cc)
+    - Enable LIBRTE_PMD_PCAP which is useful for some DPDK testcase examples
+    - Make the build more verbose to help catching issues on the first try
+    - adapt to new make infrastructure of dpdk 2.2
+    - d/README.debian: convert into d/dpdk-doc.README.debian
+    - d/dpdk-doc.README.debian: update recommendations about sdk env variables
+    - d/dpdk-sdk-env.sh: now deployed in /usr/share/dpdk to be opt in
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 04 Feb 2016 16:35:35 +0100
+
 dpdk (2.0.0-0ubuntu3) xenial; urgency=medium
 
   * Only generate HTML documentation, easing backports to 14.04 and
