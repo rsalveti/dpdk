@@ -111,14 +111,14 @@ binary-arch:
 	dh_installinit --no-start --no-restart-on-upgrade
 	dh_systemd_start --no-start --no-restart-on-upgrade
 	# Package: dpdk (runtime)
-	cp debian/build/shared-root/shared/app/testpmd debian/dpdk/usr/bin
+	cp debian/build/shared/app/testpmd debian/dpdk/usr/bin
 	mv debian/dpdk/$(DPDKDIR)/tools/dpdk_nic_bind.py \
 	   debian/dpdk/sbin/dpdk_nic_bind
 	ln -s /sbin/dpdk_nic_bind debian/dpdk/$(DPDKDIR)/tools/dpdk_nic_bind.py
 	cp debian/dpdk.interfaces debian/dpdk/etc/dpdk/interfaces
 	# Package: libdpdk0 (bare runtime libs)
 	mkdir -p debian/libdpdk0/$(LIBDIR)
-	cp debian/build/shared-root/shared/lib/libdpdk.so.* \
+	cp debian/build/shared/lib/libdpdk.so.* \
 	   debian/libdpdk0/$(LIBDIR)/
 	# Package: libdpdk-dev (bare headers and devel libs)
 	mkdir -p debian/libdpdk-dev/$(LIBDIR)
@@ -130,13 +130,17 @@ binary-arch:
 	#	SN=$$(echo $$BN | sed -e 's/\.[0-9]*$$//'); \
 	#	ln -s $$BN debian/libdpdk-dev/$(LIBDIR)/$$SN; \
 	#done
-	cp debian/build/static-root/static/lib/libdpdk.a \
+	cp debian/build/static/lib/libdpdk.a \
 	   debian/libdpdk-dev/$(LIBDIR)/
-	cp -a debian/build/shared-root/shared/include \
-	      debian/libdpdk-dev/usr/include/dpdk
+	# FIXME - broken in new build system
+	#cp -a debian/build/shared-root/shared/include \
+	#      debian/libdpdk-dev/usr/include/dpdk
 	# Package: dpdk-dev
-	cp -a debian/build/shared-root/shared \
-	      debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)
+	# FIXME - broken in new build system
+	# FIXME this mkdir is only for the interim workaround
+	mkdir -p debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)
+	#cp -a debian/build/shared-root/shared \
+	#      debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)
 	rm -rf debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)/app \
 	       debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)/include \
 	       debian/dpdk-dev/$(DPDKDIR)/$(DPDK_DEFAULT)/lib
