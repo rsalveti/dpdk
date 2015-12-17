@@ -3,7 +3,8 @@ Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9), libcap-dev, doxygen, python-sphinx,
  graphviz, inkscape, texlive-latex-extra, texlive-fonts-recommended,
- python, dh-python, dh-systemd (>= 1.5), libpcap-dev
+ python, dh-python, dh-systemd (>= 1.5), libpcap-dev, libxen-dev,
+ libxenstore3.0
 Standards-Version: 3.9.6
 Section: libs
 Homepage: http://www.dpdk.org
