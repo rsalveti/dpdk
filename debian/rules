@@ -28,6 +28,7 @@ build-indep:
 	dh_testdir
 	make O=debian/build/doc T=$(DPDK_TARGET) config
 	sed -ri -e 's,(RTE_MACHINE=).*,\1"default",' \
+	        -e 's,(RTE_NEXT_ABI=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_EAL_IGB_UIO=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_KNI_KMOD=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
@@ -41,6 +42,7 @@ build-arch:
 	dh_testdir
 	make O=debian/build/static T=$(DPDK_TARGET) config
 	sed -ri -e 's,(RTE_MACHINE=).*,\1"default",' \
+	        -e 's,(RTE_NEXT_ABI=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_EAL_IGB_UIO=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_KNI_KMOD=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
