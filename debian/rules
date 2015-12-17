@@ -43,7 +43,7 @@ build-arch:
 	        -e 's,(CONFIG_RTE_KNI_KMOD=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
 	        debian/build/static/.config
-	make O=debian/build/static
+	make V=1 O=debian/build/static
 	#
 	# Unfortunately, for some weird reason, the decision about having
 	# static or shared libraries is made for the whole build, which then
@@ -57,7 +57,7 @@ build-arch:
 	cp -a debian/build/static debian/build/shared
 	sed -ri 's,(RTE_BUILD_SHARED_LIB=).*,\1y,' \
 	        debian/build/shared/.config
-	make O=debian/build/shared build
+	make V=1 O=debian/build/shared build
 
 build: build-arch build-indep
 
