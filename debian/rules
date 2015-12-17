@@ -31,6 +31,7 @@ build-indep:
 	        -e 's,(CONFIG_RTE_EAL_IGB_UIO=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_KNI_KMOD=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
+            -e 's,(LIBRTE_PMD_PCAP=).*,\1y,' \
 		-e 's,(RTE_BUILD_SHARED_LIB=).*,\1y,' \
 	        debian/build/doc/.config
 	make O=debian/build/doc doc-api-html doc-guides-html
@@ -42,6 +43,7 @@ build-arch:
 	        -e 's,(CONFIG_RTE_EAL_IGB_UIO=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_KNI_KMOD=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
+            -e 's,(LIBRTE_PMD_PCAP=).*,\1y,' \
 	        debian/build/static/.config
 	make V=1 O=debian/build/static
 	#
