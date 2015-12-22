@@ -1,0 +1,14 @@
+Description: build: Fix doc install path
+ Caused by a type the examples could end up in the wrong path.
+Forwarded: yes
+Author: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Last-Update: 2015-12-22
+
+--- a/mk/rte.sdkinstall.mk
++++ b/mk/rte.sdkinstall.mk
+@@ -157,4 +157,4 @@
+ 	$(Q)$(call rte_mkdir,     $(DESTDIR)$(docdir)/guides)
+ 	$(Q)cp -a $O/doc/*/*/*pdf $(DESTDIR)$(docdir)/guides
+ endif
+-	$(Q)cp -a $(RTE_SDK)/examples $(DESTDIR)$(datadir)
++	$(Q)cp -a $(RTE_SDK)/examples $(DESTDIR)$(docdir)
