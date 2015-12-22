@@ -1,3 +1,2 @@
-tools			usr/share/dpdk/
 debian/dpdk-init	lib/dpdk/
 debian/dpdk.conf	etc/dpdk/
