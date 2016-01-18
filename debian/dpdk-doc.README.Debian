@@ -22,11 +22,17 @@ The minimum requirement for developing external applications is libdpdk-dev,
 which brings the headers and library files.
 
 In dpdk-dev is the upstream makefile environment. Sample applications, which
-are shipped in dpdk-doc, are providing makefiles which need variables defined
-as defined by /etc/profile.d/dpdk-sdk-env.sh (or passed to the make command).
-
-As soon as a custom RTE_SDK environment variable is set by the user the default
-dpdk profile does no more export its variables.
+are shipped in dpdk-doc, are providing makefiles.
+Those makefiles need to find the dpdk build system. To do so they need some
+environment variables defined:
+ export RTE_TARGET="$(uname -m)-default-linuxapp-gcc"
+ export RTE_SDK="/usr/share/dpdk/"
+ export RTE_INCLUDE="/usr/include/dpdk"
+Those can be set by the user to overwrite with a custom path/config. If no
+custom environment is used it is recommended to source the file 
+/etc/profile.d/dpdk-sdk-env.sh which comes with dpdk-dev.
+If the paths ever change or there will be more/less variables needed to build
+against dpdk-dev that will be adjusted for you.
 
 Alternatively /usr/include/dpdk/rte_config.h has to be pre-included
 and the linking may have to be done with "-ldpdk -ldl -lm -lpthread".
@@ -34,4 +40,4 @@ and the linking may have to be done with "-ldpdk -ldl -lm -lpthread".
 CFLAGS  += -I/usr/include/dpdk -irte_config.h
 LDFLAGS += -ldpdk -ldl -lm -lpthread
 
- -- Stefan Bader <stefan.bader@ubuntu.com>  Mon, 01 Jun 2015 18:46:38 +0200
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 04 Feb 2016 09:16:11 +0100

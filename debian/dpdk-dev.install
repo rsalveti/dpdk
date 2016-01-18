@@ -1,1 +1,1 @@
-debian/dpdk-sdk-env.sh	/etc/profile.d/
+debian/dpdk-sdk-env.sh	/usr/share/dpdk/
