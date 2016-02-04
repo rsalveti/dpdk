@@ -410,7 +410,6 @@ libdpdk.so.0 libdpdk0 #MINVER#
  rte_mempool_count@DPDK_2.0 2.2
  rte_mempool_create@DPDK_2.0 2.2
  rte_mempool_dump@DPDK_2.0 2.2
- rte_mempool_gntalloc_create@DPDK_2.0 2.2
  rte_mempool_list_dump@DPDK_2.0 2.2
  rte_mempool_lookup@DPDK_2.0 2.2
  rte_mempool_obj_iter@DPDK_2.0 2.2
