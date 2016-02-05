@@ -13,6 +13,7 @@ dpdk (2.2.0-0ubuntu1) xenial; urgency=low
   * Added changes
     - Disable CONFIG_RTE_NEXT_ABI as required for packaging (git 506f51cc)
     - Enable LIBRTE_PMD_PCAP which is useful for some DPDK testcase examples
+      this adds a build dependency to libpcap-dev
     - Make the build more verbose to help catching issues on the first try
     - adapt to new make infrastructure of dpdk 2.2
     - d/README.debian: convert into d/dpdk-doc.README.debian
