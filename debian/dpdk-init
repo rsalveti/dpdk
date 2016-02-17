@@ -25,8 +25,10 @@ DPDK_BIND="/sbin/dpdk_nic_bind"
 # if there is already one, there is no need to create another.
 #
 hugetlbfs_mountpoint() {
-	echo "$(cat /proc/mounts|grep hugetlbfs|sed -n '1p' \
-        | sed -e 's/^ *[^ ]* //; s/ .*//g')"
+	local hugetlbfsmp
+	hugetlbfsmp=$(grep "hugetlbfs" /proc/mounts |sed -n '1p' \
+		| sed -e 's/^ *[^ ]* //; s/ .*//g')
+	echo "${hugetlbfsmp}"
 }
 
 mount_hugetlbfs() {
