@@ -125,7 +125,8 @@ binary-arch:
 	# NOTE: linker script - insert basenames loop for all .so's
 	# NOTE: linker script - we also will need multiple symbol files then
 	# Package: dpdk-dev (build environment)
-	$(MAKE) O=$(DPDK_SHARED_DIR) prefix=/usr DESTDIR=debian/dpdk-dev install-sdk
+	$(MAKE) O=$(DPDK_SHARED_DIR) prefix=/usr \
+		DESTDIR=debian/dpdk-dev install-sdk
 	cp $(DPDK_SHARED_DIR)/.config debian/dpdk-dev/usr/share/dpdk/config
 	# Package: libdpdk-dev (bare headers and static devel libs)
 	mkdir -p debian/libdpdk-dev/$(LIBDIR)
