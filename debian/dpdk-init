@@ -60,9 +60,9 @@ setup_hugepages() {
 
 	MMDIR=/sys/kernel/mm/hugepages/hugepages-2048kB
 	if [ "$NR_2M_PAGES" != "" ]; then
-        if [ $NR_2M_PAGES -gt 0 ]; then
+        if [ "$NR_2M_PAGES" -gt 0 ]; then
             if [ -d $MMDIR -a -w $MMDIR/nr_hugepages ]; then
-                echo $NR_2M_PAGES >$MMDIR/nr_hugepages
+                echo "$NR_2M_PAGES" >$MMDIR/nr_hugepages
             fi
         fi
 	fi
