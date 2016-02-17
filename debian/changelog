@@ -19,8 +19,9 @@ dpdk (2.2.0-0ubuntu1) xenial; urgency=low
     - d/README.debian: convert into d/dpdk-doc.README.debian
     - d/dpdk-doc.README.debian: update recommendations about sdk env variables
     - d/dpdk-sdk-env.sh: now deployed in /usr/share/dpdk to be opt in
+    - enable XEN support for dpdk (LP: #1521289).
 
- -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 04 Feb 2016 16:35:35 +0100
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 17 Feb 2016 09:29:28 +0100
 
 dpdk (2.0.0-0ubuntu3) xenial; urgency=medium
 
