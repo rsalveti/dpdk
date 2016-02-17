@@ -7,8 +7,8 @@ dpdk (2.2.0-0ubuntu1) xenial; urgency=low
     - configuring RTE_LIBNAME to dpdk as it is the upstream default now
     - enabled formerly non building components as they build properly in 2.2
     - d/p/ubunut-avoid-texlive-fonts-extra, d/control:
-      Replace use of DejaVuSansMono by courier and drop dependency on the
-      texlive-fonts-extra package (which is in universe).
+      Replace use of DejaVuSansMono is no more needed as upstream changed the
+      font. Thereby we can drop our delta.
     - d/p/ubuntu-fix-gcc5-ftbs.patch no more needed with DPDK 2.2
   * Added changes
     - Disable CONFIG_RTE_NEXT_ABI as required for packaging (git 506f51cc)
