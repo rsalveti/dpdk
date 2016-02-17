@@ -24,7 +24,7 @@ error=0
 case "$1" in
 start)
 	log_action_begin_msg "Starting DPDK environment" "dpdk"
-	output=`/lib/dpdk/dpdk-init start` || error="$?"
+	output=$(/lib/dpdk/dpdk-init start 2>&1) || error="$?"
 	if [ ! -z "$output" ]; then
 		echo "$output" | while read line; do
 			log_action_cont_msg "$line"
@@ -38,7 +38,7 @@ stop)
 restart|force-reload)
 	;;
 status)
-	output=`/lib/dpdk/dpdk-init --status` || error="$?"
+	output=$(/lib/dpdk/dpdk-init --status 2>&1) || error="$?"
 	if [ ! -z "$output" ]; then
 		echo "$output" | while read line; do
 			log_action_cont_msg "$line"
