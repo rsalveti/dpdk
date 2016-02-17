@@ -20,9 +20,8 @@ set -e
 
 DPDK_BIND="/sbin/dpdk_nic_bind"
 
-
 #
-# The DPDK library also will use the first mounted instance it finds. So
+# The DPDK library will use the first mounted instance it finds. So
 # if there is already one, there is no need to create another.
 #
 hugetlbfs_mountpoint() {
