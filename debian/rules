@@ -46,12 +46,12 @@ build-arch: build-config
 	dh_testdir
 	$(MAKE) O=$(DPDK_STATIC_DIR) build
 	# Unfortunately the decision about having static or shared libraries is
-	# made for the whole build, which then produces only .a or .so files (but
-	# not both).
+	# made for the whole build, which then produces only .a or .so files
+	# (but not both).
 	# And the target layout for target selection has no field for the
 	# type of library.
-	# Right now I hack this by doing a second build which only differs in the
-	# selection of shared libs. 
+	# Right now I hack this by doing a second build which only differs in
+	# the selection of shared libs. 
 	# Shared libs should be default, so the previous static build is only
 	# used to get static libraries.
 	cp -a $(DPDK_STATIC_DIR) $(DPDK_SHARED_DIR)
@@ -106,7 +106,8 @@ binary-arch:
 		DESTDIR=debian/dpdk install-runtime
 	cp debian/dpdk.interfaces debian/dpdk/etc/dpdk/interfaces
 	rm debian/dpdk/usr/sbin/dpdk_nic_bind
-	ln -s /usr/share/dpdk/tools/dpdk_nic_bind.py debian/dpdk/sbin/dpdk_nic_bind
+	ln -s /usr/share/dpdk/tools/dpdk_nic_bind.py \
+		debian/dpdk/sbin/dpdk_nic_bind
 	# Package: libdpdk0 (bare runtime libs)
 	mkdir -p debian/libdpdk0/$(LIBDIR)
 	# NOTE so far upstream dpdk has not settled on really versioning the
