@@ -51,7 +51,7 @@ build-arch: build-config
 	# And the target layout for target selection has no field for the
 	# type of library.
 	# Right now I hack this by doing a second build which only differs in
-	# the selection of shared libs. 
+	# the selection of shared libs.
 	# Shared libs should be default, so the previous static build is only
 	# used to get static libraries.
 	cp -a $(DPDK_STATIC_DIR) $(DPDK_SHARED_DIR)
