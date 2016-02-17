@@ -81,13 +81,14 @@ bind_interfaces() {
 		if [ "$BUS" != "pci" ]; then
 			continue
 		fi
-		MOD="$(echo $MOD | tr '-' '_')"
-		CUR="$(basename $(readlink /sys/bus/$BUS/devices/$ID/driver))"
-		CUR="$(echo $CUR | tr '-' '_')"
+		MOD=$(echo "$MOD" | tr '-' '_')
+		CUR=$(readlink "/sys/bus/$BUS/devices/$ID/driver")
+		CUR=$(basename "$CUR")
+		CUR=$(echo "$CUR" | tr '-' '_')
 		if [ "$MOD" != "$CUR" ]; then
 			echo "Reassigning pci:$ID to $MOD"
-			modprobe -q $MOD || true
-			$DPDK_BIND -b $MOD $ID
+			modprobe -q "$MOD" || true
+			$DPDK_BIND -b "$MOD" "$ID"
 		fi
 	done
 }
