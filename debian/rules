@@ -38,11 +38,11 @@ build-config:
             -e 's,(LIBRTE_PMD_XENVIRT=).*,\1y,' \
 	        $(DPDK_STATIC_DIR)/.config
 
-build-indep:
+build-indep: build-config
 	dh_testdir
 	$(MAKE) O=$(DPDK_STATIC_DIR) doc-api-html doc-guides-html
 
-build-arch:
+build-arch: build-config
 	dh_testdir
 	$(MAKE) O=$(DPDK_STATIC_DIR) build
 	# Unfortunately the decision about having static or shared libraries is
@@ -60,9 +60,6 @@ build-arch:
 	$(MAKE) O=$(DPDK_SHARED_DIR) build
 
 build: build-arch build-indep
-# ensure the config is done before calling builds
-build-arch: build-config
-build-indep: build-config
 
 binary-indep: PACKAGE_NAME=dpdk-doc
 binary-indep: DOCDIR=usr/share/doc/dpdk
