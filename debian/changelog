@@ -1,3 +1,20 @@
+dpdk (2.2.0-0ubuntu2) Xenial; urgency=medium
+
+  * fix libdpdk.so library linking (LP: #1547517)
+    - libdpdk.so now has proper linkage information (was underlinked)
+      Note: this can be dropped when moving to DPDK 2.3 with linker script
+            instead of combined shared lib.
+    - remove reference to extra linkage needed when building against -ldpdk
+      in dpdk-doc README.
+    - add dep8 d/t/test-linkage to verify linking dpdk works as expected.
+  * d/control remove ${shlibs:Depends} on package with no linked binary
+    avoiding dpkg-gencontrol build warning about unknown ${shlibs:Depends}.
+  * d/dpdk-doc.README.debian fix path to DPDK build environment variable
+    helper script in README file.
+  * Update VCS Info in d/control to include our repositories.
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 25 Feb 2016 14:28:50 +0100
+
 dpdk (2.2.0-0ubuntu1) xenial; urgency=low
 
   * Merge from Upstream to DPDK 2.2
