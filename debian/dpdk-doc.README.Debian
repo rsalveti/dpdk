@@ -34,10 +34,7 @@ custom environment is used it is recommended to source the file
 If the paths ever change or there will be more/less variables needed to build
 against dpdk-dev that will be adjusted for you.
 
-Alternatively /usr/include/dpdk/rte_config.h has to be pre-included
-and the linking may have to be done with "-ldpdk -ldl -lm -lpthread".
-
+Alternatively /usr/include/dpdk/rte_config.h has to be pre-included:
 CFLAGS  += -I/usr/include/dpdk -irte_config.h
-LDFLAGS += -ldpdk -ldl -lm -lpthread
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Thu, 04 Feb 2016 09:16:11 +0100
