@@ -58,7 +58,7 @@ Section: libdevel
 Architecture: amd64 i386
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${shlibs:Depends}, ${misc:Depends}, libdpdk0 (= ${binary:Version})
+Depends: ${misc:Depends}, libdpdk0 (= ${binary:Version})
 Description: Data Plane Development Kit (basic development files)
  DPDK is a set of libraries for fast packet processing. Applications run
  in user-space and communicate directly with dedicated network interfaces.
