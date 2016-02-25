@@ -4,7 +4,7 @@ Description: build: Fix linkage of combined shared library
  dependencies and adding them as -l in their compile.
  This patch adds the correct linkage for the currently packaged library
 Forwarded: No, upstream will solve it for DPDK 2.3 via linker script
-Author: Christian Ehrhardt <stefan.bader@canonical.com>
+Author: Christian Ehrhardt <christian.ehrhardt@canonical.com>
 Last-Update: 2016-02-24
 
 --- a/mk/rte.sharelib.mk
