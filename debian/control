@@ -1,10 +1,20 @@
 Source: dpdk
 Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Build-Depends: debhelper (>= 9), libcap-dev, doxygen, python-sphinx,
- graphviz, inkscape, texlive-latex-extra, texlive-fonts-recommended,
- python, dh-python, dh-systemd (>= 1.5), libpcap-dev, libxen-dev,
- libxenstore3.0
+Build-Depends: debhelper (>= 9),
+               dh-python,
+               dh-systemd (>= 1.5),
+               doxygen,
+               graphviz,
+               inkscape,
+               libcap-dev,
+               libpcap-dev,
+               libxen-dev,
+               libxenstore3.0,
+               python,
+               python-sphinx,
+               texlive-fonts-recommended,
+               texlive-latex-extra
 Standards-Version: 3.9.6
 Section: libs
 Homepage: http://www.dpdk.org
@@ -16,8 +26,11 @@ Vcs-Browser: https://code.launchpad.net/~ubuntu-server/dpdk/+git/dpdk
 Package: dpdk
 Section: devel
 Architecture: amd64 i386
-Depends: ${shlibs:Depends}, libdpdk0 (= ${binary:Version}),
-  ${misc:Depends}, ${python:Depends}, lsb-base (>= 3.2-14)
+Depends: libdpdk0 (= ${binary:Version}),
+         lsb-base (>= 3.2-14),
+         ${misc:Depends},
+         ${python:Depends},
+         ${shlibs:Depends}
 Description: Data Plane Development Kit (runtime)
  DPDK is a set of libraries for fast packet processing. Applications run
  in user-space and communicate directly with dedicated network interfaces.
@@ -36,7 +49,7 @@ Description: Data Plane Development Kit (development files)
 Package: dpdk-doc
 Section: doc
 Architecture: all
-Depends: ${misc:Depends}, libjs-jquery, libjs-underscore
+Depends: libjs-jquery, libjs-underscore, ${misc:Depends}
 Description: Data Plane Development Kit (documentation)
  DPDK is a set of libraries for fast packet processing. Applications run
  in user-space and communicate directly with dedicated network interfaces.
@@ -46,7 +59,7 @@ Package: libdpdk0
 Architecture: amd64 i386
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: Data Plane Development Kit (runtime libraries)
  DPDK is a set of libraries for fast packet processing. Applications run
  in user-space and communicate directly with dedicated network interfaces.
@@ -58,7 +71,7 @@ Section: libdevel
 Architecture: amd64 i386
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${misc:Depends}, libdpdk0 (= ${binary:Version})
+Depends: libdpdk0 (= ${binary:Version}), ${misc:Depends}
 Description: Data Plane Development Kit (basic development files)
  DPDK is a set of libraries for fast packet processing. Applications run
  in user-space and communicate directly with dedicated network interfaces.
