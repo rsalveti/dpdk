@@ -18,6 +18,8 @@ Build-Depends: debhelper (>= 9),
 Standards-Version: 3.9.6
 Section: libs
 Homepage: http://www.dpdk.org
+Vcs-Original-Git: git://dpdk.org/dpdk
+Vcs-Original-Browser: http://www.dpdk.org/browse/dpdk/refs/
 Vcs-Git: https://git.launchpad.net/~ubuntu-server/dpdk
 Vcs-Browser: https://code.launchpad.net/~ubuntu-server/dpdk/+git/dpdk
 
