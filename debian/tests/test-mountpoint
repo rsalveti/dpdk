@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+. `dirname $0`/check-dpdk-supported-arch.sh
+
 checkstatus() {
     MARK=${1}
     COUNT=${2}

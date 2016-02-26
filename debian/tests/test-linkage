@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu
 
+. `dirname $0`/check-dpdk-supported-arch.sh
+
 cat > testlinkage.c << EOF
 #include <stdio.h>
 #include "dpdk/rte_common.h"
