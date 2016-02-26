@@ -1,8 +1,8 @@
 Tests: test-mountpoint
 Restrictions: allow-stderr, isolation-machine, needs-root
-Depends: dpdk, gawk, mount, systemd, sysvinit-utils
+Depends: dpdk [amd64 i386], gawk, mount, systemd, sysvinit-utils
 
 Tests: test-linkage
 Restrictions: allow-stderr
-Depends: libdpdk0, libdpdk-dev, libc6, libc6-dev, gcc, grep, libpcap-dev,
- libxenstore3.0
+Depends: libdpdk0 [amd64 i386], libdpdk-dev [amd64 i386], libc6, libc6-dev, gcc,
+ grep, libpcap-dev, libxenstore3.0 [amd64 i386]
