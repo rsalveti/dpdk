@@ -7,7 +7,7 @@ dpdk (2.2.0-0ubuntu3) xenial; urgency=medium
     - d/t/check-dpdk-supported-arch.sh is called by all DPDK tests to ensure
       the platform is supported. If not it skips the test.
 
- -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 29 Feb 2016 11:14:49 +0100
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 29 Feb 2016 11:03:39 +0000
 
 dpdk (2.2.0-0ubuntu2) xenial; urgency=medium
 
