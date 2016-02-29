@@ -1,3 +1,15 @@
+dpdk (2.2.0-0ubuntu3) Xenial; urgency=medium
+
+  [ Christian Ehrhardt ]
+  * guard dep8 tests against non supported platforms (LP: #1551158)
+    - d/t/control now avoids failing due to "dependencies are unsatisfiable"
+      when fetching packages. The packages architecture restrictions got added
+      to avoid that.
+    - d/t/check-dpdk-supported-arch.sh is called by all DPDK tests to ensure
+      the platform is supported. If not it skips the test.
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 29 Feb 2016 11:14:49 +0100
+
 dpdk (2.2.0-0ubuntu2) xenial; urgency=medium
 
   [ Christian Ehrhardt ]
