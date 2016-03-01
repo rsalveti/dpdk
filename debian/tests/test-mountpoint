@@ -4,9 +4,13 @@ set -e
 basedir=$(dirname "$0")
 . "${basedir}"/check-dpdk-supported-arch.sh
 
+EXPECTHP=100
+DPDK_CONF="/etc/dpdk/dpdk.conf"
+DPDK_INTERF="/etc/dpdk/interfaces"
+
 checkstatus() {
     MARK=${1}
-    COUNT=${2}
+    MPCOUNT=${2}
     PRE=${3}
     POST=${4}
     echo "Status after ${MARK}"
@@ -20,15 +24,33 @@ checkstatus() {
     htlbfscount=$(grep -c hugetlbfs < /proc/mounts)
     set -e
 
-    if [ "${htlbfscount}" -eq "${COUNT}" ]; then
-        echo "Count (${htlbfscount}) as expected (${COUNT})"
+    if [ "${htlbfscount}" -eq "${MPCOUNT}" ]; then
+        echo "Count (${htlbfscount}) as expected (${MPCOUNT})"
     else
-        echo "Count (${htlbfscount}) not as expected (${COUNT})"
+        echo "Count (${htlbfscount}) not as expected (${MPCOUNT})"
         exit 1
+    fi
+
+    # check if setting HP worked
+    if [ "${MPCOUNT}" -ne "0" ]; then
+        MMDIR=/sys/kernel/mm/hugepages/hugepages-2048kB
+        if [ -d $MMDIR -a -r $MMDIR/nr_hugepages ]; then
+            hpcount=$(cat $MMDIR/nr_hugepages)
+            if [ "${hpcount}" -ne "${EXPECTHP}" ]; then
+                echo "Hugepages (${hpcount}) not as expected (${EXPECTHP})"
+                exit 1
+            else
+                echo "Hugepages ok (${hpcount})"
+            fi
+        fi
     fi
 }
 
 resetservice() {
+    # help a bit with memory fragmentation reg huge page allocation
+    sync
+    echo 3 > /proc/sys/vm/drop_cache
+
     # stopping and resetting Service
     systemctl stop dpdk.service
     systemctl reset-failed dpdk.service
@@ -57,6 +79,25 @@ checkinitstyle() {
     ${PRE} restart "${POST}"
     checkstatus "${TYPE}-RESTART" 1 "${PRE}" "${POST}"
 }
+
+# a low amount of HP, works in isolation-machine and we can check if it appears
+echo "NR_2M_PAGES=$EXPECTHP" >> ${DPDK_CONF}
+
+# While we can't rely on any real device for DPDK tests in adt-* environments
+# we can expect all kind of broken config not to break it (would be detected
+# via set -e). Add all kind of broken definitions and expect it not to fail.
+cat <<EOF > ${DPDK_INTERF}
+# wrong bus
+pTi 0000:04:00.0 uio-pci-generic
+# not enough parms
+0000:04:00.0 uio-pci-generic
+# empty line
+
+# non existing device
+pci 1234:56:78.9 uio-pci-generic
+# bad module name
+0000:01:00.0 foo-bar-module
+EOF
 
 # some had issues in the past caused by different environments, so we test all
 # Direct Calls
