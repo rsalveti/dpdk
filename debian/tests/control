@@ -1,4 +1,4 @@
-Tests: test-mountpoint
+Tests: test-initscripts
 Restrictions: allow-stderr, isolation-machine, needs-root
 Depends: dpdk [amd64 i386], gawk, mount, systemd, sysvinit-utils
 
