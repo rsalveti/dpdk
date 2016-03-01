@@ -1,7 +1,8 @@
 #!/bin/bash
 set -eu
 
-. `dirname $0`/check-dpdk-supported-arch.sh
+basedir=$(dirname "$0")
+. "${basedir}"/check-dpdk-supported-arch.sh
 
 cat > testlinkage.c << EOF
 #include <stdio.h>
