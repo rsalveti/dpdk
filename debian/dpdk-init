@@ -26,105 +26,105 @@ DPDK_INTERF="/etc/dpdk/interfaces"
 # if there is already one, there is no need to create another.
 #
 hugetlbfs_mountpoint() {
-	local hugetlbfsmp
-	hugetlbfsmp=$(grep "hugetlbfs" /proc/mounts |sed -n '1p' \
-		| sed -e 's/^ *[^ ]* //; s/ .*//g')
-	echo "${hugetlbfsmp}"
+    local hugetlbfsmp
+    hugetlbfsmp=$(grep "hugetlbfs" /proc/mounts |sed -n '1p' \
+        | sed -e 's/^ *[^ ]* //; s/ .*//g')
+    echo "${hugetlbfsmp}"
 }
 
 mount_hugetlbfs() {
-	if [ "$(hugetlbfs_mountpoint)" != "" ]; then
-		return 0
-	fi
-	MNT=/dev/hugepages
+    if [ "$(hugetlbfs_mountpoint)" != "" ]; then
+        return 0
+    fi
+    MNT=/dev/hugepages
 
-	if [ ! -e $MNT ]; then
-		mkdir $MNT
-		if [ $? -ne 0 ]; then
-			echo "Could not create directory $MNT!" >&2
-			return 1
-		fi
-	fi
-	mount -thugetlbfs hugetlbfs $MNT
+    if [ ! -e $MNT ]; then
+        mkdir $MNT
+        if [ $? -ne 0 ]; then
+            echo "Could not create directory $MNT!" >&2
+            return 1
+        fi
+    fi
+    mount -thugetlbfs hugetlbfs $MNT
 
-	return $?
+    return $?
 }
 
 #
 # Reserve a certain amount of hugepages (defined in /etc/dpdk.conf)
 #
 setup_hugepages() {
-	if [ ! -r /etc/dpdk/dpdk.conf ]; then
-		return 1
-	fi
-	. /etc/dpdk/dpdk.conf
+    if [ ! -r /etc/dpdk/dpdk.conf ]; then
+        return 1
+    fi
+    . /etc/dpdk/dpdk.conf
 
-	MMDIR=/sys/kernel/mm/hugepages/hugepages-2048kB
-	if [ "$NR_2M_PAGES" != "" ]; then
+    MMDIR=/sys/kernel/mm/hugepages/hugepages-2048kB
+    if [ "$NR_2M_PAGES" != "" ]; then
         if [ "$NR_2M_PAGES" -gt 0 ]; then
             if [ -d $MMDIR -a -w $MMDIR/nr_hugepages ]; then
                 echo "$NR_2M_PAGES" >$MMDIR/nr_hugepages
             fi
         fi
-	fi
+    fi
 
-	return 0
+    return 0
 }
 
 #
 # Allow NICs to be automatically bound to DPDK compatible drivers on boot.
 #
 bind_interfaces() {
-	if [ ! -r "$DPDK_INTERF" ]; then
-		return 0
-	fi
-	grep -v '^[ \t]*#' "$DPDK_INTERF" | while read BUS ID MOD; do
-		if [ "$BUS" = "" -o "$ID" = "" -o "$MOD" = "" ]; then
-			echo "WARNING: incomplete spec in $DPDK_INTERF" \
-				" - BUS '$BUS' ID '$ID' MOD '$MOD'"
-			continue
-		fi
-		if [ "$BUS" != "pci" ]; then
-			echo "WARNING: incompatible bus '$BUS' in $DPDK_INTERF"
-			continue
-		fi
-		MOD=$(echo "$MOD" | tr '-' '_')
-		SYSFSPATH="/sys/bus/$BUS/devices/$ID/driver"
-		if [ ! -L "$SYSFSPATH" ]; then
-			echo "WARNING: invalid pci ID '$ID' in $DPDK_INTERF" \
-				" - path '$SYSFSPATH' does not exist"
-			continue
-		fi
-		CUR=$(readlink "/sys/bus/$BUS/devices/$ID/driver")
-		CUR=$(basename "$CUR")
-		CUR=$(echo "$CUR" | tr '-' '_')
-		if [ "$MOD" != "$CUR" ]; then
-			echo "Reassigning pci:$ID to $MOD"
-			modprobe -q "$MOD" || true
-			$DPDK_BIND -b "$MOD" "$ID"
-		else
-			echo "pci:$ID already assigned to $MOD"
-		fi
-	done
+    if [ ! -r "$DPDK_INTERF" ]; then
+        return 0
+    fi
+    grep -v '^[ \t]*#' "$DPDK_INTERF" | while read BUS ID MOD; do
+        if [ "$BUS" = "" -o "$ID" = "" -o "$MOD" = "" ]; then
+            echo "WARNING: incomplete spec in $DPDK_INTERF" \
+                " - BUS '$BUS' ID '$ID' MOD '$MOD'"
+            continue
+        fi
+        if [ "$BUS" != "pci" ]; then
+            echo "WARNING: incompatible bus '$BUS' in $DPDK_INTERF"
+            continue
+        fi
+        MOD=$(echo "$MOD" | tr '-' '_')
+        SYSFSPATH="/sys/bus/$BUS/devices/$ID/driver"
+        if [ ! -L "$SYSFSPATH" ]; then
+            echo "WARNING: invalid pci ID '$ID' in $DPDK_INTERF" \
+                " - path '$SYSFSPATH' does not exist"
+            continue
+        fi
+        CUR=$(readlink "/sys/bus/$BUS/devices/$ID/driver")
+        CUR=$(basename "$CUR")
+        CUR=$(echo "$CUR" | tr '-' '_')
+        if [ "$MOD" != "$CUR" ]; then
+            echo "Reassigning pci:$ID to $MOD"
+            modprobe -q "$MOD" || true
+            $DPDK_BIND -b "$MOD" "$ID"
+        else
+            echo "pci:$ID already assigned to $MOD"
+        fi
+    done
 }
 
 
 
 case "$1" in
 start)
-	mount_hugetlbfs
-	setup_hugepages
-	bind_interfaces
-	;;
+    mount_hugetlbfs
+    setup_hugepages
+    bind_interfaces
+    ;;
 stop)
-	;;
+    ;;
 reload|force-reload)
-	setup_hugepages
-	bind_interfaces
-	;;
+    setup_hugepages
+    bind_interfaces
+    ;;
 status)
-	$DPDK_BIND --status
-	;;
+    $DPDK_BIND --status
+    ;;
 *)
     echo "Usage: $0 {start|stop|reload|force-reload|status}"
     exit 1

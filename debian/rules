@@ -34,8 +34,8 @@ build-config:
 	        -e 's,(CONFIG_RTE_EAL_IGB_UIO=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_KNI_KMOD=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_BUILD_COMBINE_LIBS=).*,\1y,' \
-            -e 's,(LIBRTE_PMD_PCAP=).*,\1y,' \
-            -e 's,(LIBRTE_PMD_XENVIRT=).*,\1y,' \
+	        -e 's,(LIBRTE_PMD_PCAP=).*,\1y,' \
+	        -e 's,(LIBRTE_PMD_XENVIRT=).*,\1y,' \
 	        $(DPDK_STATIC_DIR)/.config
 
 build-indep: build-config
