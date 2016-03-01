@@ -19,6 +19,7 @@
 set -e
 
 DPDK_BIND="/sbin/dpdk_nic_bind"
+DPDK_INTERF="/etc/dpdk/interfaces"
 
 #
 # The DPDK library will use the first mounted instance it finds. So
@@ -74,14 +75,26 @@ setup_hugepages() {
 # Allow NICs to be automatically bound to DPDK compatible drivers on boot.
 #
 bind_interfaces() {
-	if [ ! -r /etc/dpdk/interfaces ]; then
+	if [ ! -r "$DPDK_INTERF" ]; then
 		return 0
 	fi
-	grep -v '^[ \t]*#' /etc/dpdk/interfaces | while read BUS ID MOD; do
+	grep -v '^[ \t]*#' "$DPDK_INTERF" | while read BUS ID MOD; do
+		if [ "$BUS" = "" -o "$ID" = "" -o "$MOD" = "" ]; then
+			echo "WARNING: incomplete spec in $DPDK_INTERF" \
+				" - BUS '$BUS' ID '$ID' MOD '$MOD'"
+			continue
+		fi
 		if [ "$BUS" != "pci" ]; then
+			echo "WARNING: incompatible bus '$BUS' in $DPDK_INTERF"
 			continue
 		fi
 		MOD=$(echo "$MOD" | tr '-' '_')
+		SYSFSPATH="/sys/bus/$BUS/devices/$ID/driver"
+		if [ ! -L "$SYSFSPATH" ]; then
+			echo "WARNING: invalid pci ID '$ID' in $DPDK_INTERF" \
+				" - path '$SYSFSPATH' does not exist"
+			continue
+		fi
 		CUR=$(readlink "/sys/bus/$BUS/devices/$ID/driver")
 		CUR=$(basename "$CUR")
 		CUR=$(echo "$CUR" | tr '-' '_')
@@ -89,6 +102,8 @@ bind_interfaces() {
 			echo "Reassigning pci:$ID to $MOD"
 			modprobe -q "$MOD" || true
 			$DPDK_BIND -b "$MOD" "$ID"
+		else
+			echo "pci:$ID already assigned to $MOD"
 		fi
 	done
 }
