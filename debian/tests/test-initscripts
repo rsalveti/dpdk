@@ -49,7 +49,7 @@ checkstatus() {
 resetservice() {
     # help a bit with memory fragmentation reg huge page allocation
     sync
-    echo 3 > /proc/sys/vm/drop_cache
+    echo 3 > /proc/sys/vm/drop_caches
 
     # stopping and resetting Service
     systemctl stop dpdk.service
