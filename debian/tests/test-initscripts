@@ -95,8 +95,6 @@ pTi 0000:04:00.0 uio-pci-generic
 
 # non existing device
 pci 1234:56:78.9 uio-pci-generic
-# bad module name
-0000:01:00.0 foo-bar-module
 EOF
 
 # some had issues in the past caused by different environments, so we test all
