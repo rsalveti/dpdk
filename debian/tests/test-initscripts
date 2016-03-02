@@ -13,9 +13,18 @@ checkstatus() {
     MPCOUNT=${2}
     PRE=${3}
     POST=${4}
+    EXPECTEDSTATUS=${5}
     echo "Status after ${MARK}"
     echo "Status of the Service"
     ${PRE} status "${POST}" || true
+
+    GOTSTATUS=$(${PRE} status "${POST}" | awk '/^ *Active: / { print $2 }')
+    if [ "${GOTSTATUS}" != "${EXPECTEDSTATUS}" ]; then
+        echo "Service status (${GOTSTATUS}) not as expected (${EXPECTEDSTATUS})"
+        exit 1
+    else
+        echo "Service status (${GOTSTATUS}) as expected"
+    fi
 
     echo "Status of hugetlbfs mount points"
     # this section is ok to create bad RCs when no mounts are available
@@ -71,13 +80,13 @@ checkinitstyle() {
     TYPE=${3}
     printf "\n\n### Checking Type %s ###\n" "${TYPE}"
     resetservice
-    checkstatus "${TYPE}-BEGIN" 0 "${PRE}" "${POST}"
+    checkstatus "${TYPE}-BEGIN" 0 "${PRE}" "${POST}" "inactive"
     echo "### Starting Service ###"
     ${PRE} start "${POST}"
-    checkstatus "${TYPE}-START" 1 "${PRE}" "${POST}"
+    checkstatus "${TYPE}-START" 1 "${PRE}" "${POST}" "active"
     echo "### Restarting Service ###"
     ${PRE} restart "${POST}"
-    checkstatus "${TYPE}-RESTART" 1 "${PRE}" "${POST}"
+    checkstatus "${TYPE}-RESTART" 1 "${PRE}" "${POST}" "active"
 }
 
 # a low amount of HP, works in isolation-machine and we can check if it appears
