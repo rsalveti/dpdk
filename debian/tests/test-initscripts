@@ -53,9 +53,9 @@ checkstatus() {
     set -e
 
     if [ "${htlbfscount}" -eq "${MPCOUNT}" ]; then
-        echo "Count (${htlbfscount}) as expected (${MPCOUNT})"
+        echo "MP Count (${htlbfscount}) as expected (${MPCOUNT})"
     else
-        echo "Count (${htlbfscount}) not as expected (${MPCOUNT})"
+        echo "MP Count (${htlbfscount}) not as expected (${MPCOUNT})"
         exit 1
     fi
 
