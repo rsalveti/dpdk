@@ -29,10 +29,10 @@ environment variables defined:
  export RTE_SDK="/usr/share/dpdk/"
  export RTE_INCLUDE="/usr/include/dpdk"
 Those can be set by the user to overwrite with a custom path/config. If no
-custom environment is used it is recommended to source the file 
+custom environment is used it is recommended to source the file
 /usr/share/dpdk/dpdk-sdk-env.sh which comes with dpdk-dev.
 If the paths ever change or there will be more/less variables needed to build
-against dpdk-dev that will be adjusted for you.
+against dpdk-dev that file will be adjusted for you.
 
 Alternatively /usr/include/dpdk/rte_config.h has to be pre-included:
 CFLAGS  += -I/usr/include/dpdk -irte_config.h

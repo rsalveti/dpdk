@@ -15,7 +15,7 @@ int main()
 }
 EOF
 
-# with broken linkage this fails with undefined symbols
+# with broken linkage this will fail with undefined symbols
 printf "\n\nChecking compile with link against DPDK\n"
 gcc -v testlinkage.c -o testlinkage.bin -Wall -Werror -ldpdk
 echo "OK"
@@ -31,9 +31,10 @@ ldd testlinkage.bin | grep libpthread
 echo "OK"
 
 printf "\n\nChecking test execution\n"
-# it doesn't do much, but it should work - so call it as a minor extra test
-# it is known to fail without SSE3 in e.g. some adt environments, in that
-# case check at least that we get the correct abortion
+# It doesn't do much, but it should work - so calling it is a minor extra test.
+# It is known to fail without SSE3 in e.g. some adt environments, in that
+# case check at least that we get the correct error message (this will trigger
+# a test fail if it neither finds the success nor the expected error message)
 (./testlinkage.bin 2>&1 || /bin/true ) | \
 grep -E 'ERROR: This system does not support "SSSE3".|Hello rte_exit 0x'
 

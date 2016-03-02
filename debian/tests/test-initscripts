@@ -4,11 +4,13 @@ set -e
 basedir=$(dirname "$0")
 . "${basedir}"/check-dpdk-supported-arch.sh
 
-# Overall that can requires extra 1.2G in the test environment
+# Overall that could require up to 1.2G for hugepages in the test environment
 EXPECT2MHP=100
-# might not available in Test env, we want at least to see it fail gracefully
-# if a given HP size is not available on a system, they are neither requested
-# in init scripts (they generate a warning) nor checked here
+# Some page sizes like e.g. 1G might not be available in all test environments
+# The test still configures 1 page of 1G size.
+# One of two things will happen, depending on the test environment:
+# - has 1G huge page size => they will be allocated and tested
+# - has no 1G huge page size => we check if it fails gracefully
 EXPECT1GHP=1
 
 DPDK_CONF="/etc/dpdk/dpdk.conf"
@@ -67,7 +69,7 @@ checkstatus() {
 }
 
 resetservice() {
-    # help a bit with memory fragmentation reg huge page allocation
+    # help a bit with memory fragmentation regarding huge page allocation
     sync
     echo 3 > /proc/sys/vm/drop_caches
 
@@ -83,7 +85,7 @@ resetservice() {
 
 checkinitstyle() {
     # We want to verify that
-    # - initially out environment has no hugetlbfs mount
+    # - initially our environment has no hugetlbfs mount
     # - a system without hugetlbfs mount gets it mounted
     # - a restart of the service does neither drop nor duplicate the mount
     PRE=${1}
@@ -100,13 +102,13 @@ checkinitstyle() {
     checkstatus "${TYPE}-RESTART" 1 "${PRE}" "${POST}" "active"
 }
 
-# a low amount of HP, works in isolation-machine and we can check if it appears
 echo "NR_2M_PAGES=$EXPECT2MHP" >> ${DPDK_CONF}
 echo "NR_1G_PAGES=$EXPECT1GHP" >> ${DPDK_CONF}
 
-# While we can't rely on any real device for DPDK tests in adt-* environments
-# we can expect all kind of broken config not to break it (would be detected
-# via set -e). Add all kind of broken definitions and expect it not to fail.
+# We can't rely on any real device for DPDK tests in adt-* environments. But
+# we can expect all kind of broken configuration not to break it (would be
+# detected via set -e).
+# So add all kind of known-to-be-broken definitions and expect it not to fail.
 cat <<EOF > ${DPDK_INTERF}
 # wrong bus
 pTi 0000:04:00.0 uio-pci-generic
@@ -118,7 +120,7 @@ pTi 0000:04:00.0 uio-pci-generic
 pci 1234:56:78.9 uio-pci-generic
 EOF
 
-# some had issues in the past caused by different environments, so we test all
+# some had issues in the past caused by different init systems, so we test all
 # Direct Calls
 checkinitstyle "/etc/init.d/dpdk" "" "Direct"
 # System V style init
