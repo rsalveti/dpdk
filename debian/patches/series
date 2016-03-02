@@ -1,3 +1,4 @@
 ubuntu-fix-doc-installpath.patch
 ubuntu-combined-shared-lib-abiversion.patch
 ubuntu-fix-library-linkage.patch
+ubuntu-fix-testpmd-without-xen.patch
