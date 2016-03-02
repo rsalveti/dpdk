@@ -50,6 +50,33 @@ mount_hugetlbfs() {
     return $?
 }
 
+_setup_hugepages() {
+    MMDIR="/sys/kernel/mm/hugepages/${1}"
+    PAGES=${2}
+
+    if [ "$PAGES" != "" ]; then
+        if [ "$PAGES" -gt 0 ]; then
+            if [ -d "$MMDIR" -a -w "$MMDIR/nr_hugepages" ]; then
+                # increases the chance to allocate enough huge pages
+                # configurable, since it comes at a perf penality
+                if [ "$DROPCACHE_BEFORE_HP_ALLOC" = "1" ]; then
+                    echo 3 > /proc/sys/vm/drop_caches
+                fi
+
+                echo "$PAGES" > "$MMDIR/nr_hugepages"
+
+                GOTPAGES=$(cat "$MMDIR/nr_hugepages")
+                if [ "$GOTPAGES" -lt "$PAGES" ]; then
+                    echo "WARNING: could not allocate $PAGES at " \
+                         "$MMDIR/nr_hugepages (only got $GOTPAGES)."
+                fi
+            else
+                echo "WARNING: $MMDIR/nr_hugepages not found/writable"
+            fi
+        fi
+    fi
+}
+
 #
 # Reserve a certain amount of hugepages (defined in /etc/dpdk.conf)
 #
@@ -59,14 +86,8 @@ setup_hugepages() {
     fi
     . /etc/dpdk/dpdk.conf
 
-    MMDIR=/sys/kernel/mm/hugepages/hugepages-2048kB
-    if [ "$NR_2M_PAGES" != "" ]; then
-        if [ "$NR_2M_PAGES" -gt 0 ]; then
-            if [ -d $MMDIR -a -w $MMDIR/nr_hugepages ]; then
-                echo "$NR_2M_PAGES" >$MMDIR/nr_hugepages
-            fi
-        fi
-    fi
+    _setup_hugepages "hugepages-2048kB" "$NR_2M_PAGES"
+    _setup_hugepages "hugepages-1048576kB" "$NR_1G_PAGES"
 
     return 0
 }
