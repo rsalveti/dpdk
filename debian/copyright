@@ -33,6 +33,7 @@ License: BSD+GPLv2+LGPLv2
 
 Files: debian/*
 Copyright: 2015 Canonical Ltd. <stefan.bader@canonical.com>
+Copyright: 2015, 2016 Canonical Ltd. <christian.ehrhardt@canonical.com>
 License: GPL-3
  This program is free software: you can redistribute it and/or modify it
  under the terms of the GNU General Public License version 3, as published
