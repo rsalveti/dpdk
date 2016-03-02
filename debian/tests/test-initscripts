@@ -4,9 +4,28 @@ set -e
 basedir=$(dirname "$0")
 . "${basedir}"/check-dpdk-supported-arch.sh
 
-EXPECTHP=100
+# Overall that can requires extra 1.2G in the test environment
+EXPECT2MHP=100
+# might not available in Test env, we want at least to see it fail gracefully
+# if a given HP size is not available on a system, they are neither requested
+# in init scripts (they generate a warning) nor checked here
+EXPECT1GHP=1
+
 DPDK_CONF="/etc/dpdk/dpdk.conf"
 DPDK_INTERF="/etc/dpdk/interfaces"
+
+checkhp() {
+    MMDIR="/sys/kernel/mm/hugepages/${1}"
+    if [ -d "$MMDIR" -a -r "$MMDIR/nr_hugepages" ]; then
+        hpcount=$(cat "$MMDIR/nr_hugepages")
+        if [ "${hpcount}" -ne "${EXPECT2MHP}" ]; then
+            echo "Hugepages (${hpcount}) not as expected (${EXPECT2MHP})"
+            exit 1
+        else
+            echo "Hugepages ok (${hpcount})"
+        fi
+    fi
+}
 
 checkstatus() {
     MARK=${1}
@@ -42,16 +61,8 @@ checkstatus() {
 
     # check if setting HP worked
     if [ "${MPCOUNT}" -ne "0" ]; then
-        MMDIR=/sys/kernel/mm/hugepages/hugepages-2048kB
-        if [ -d $MMDIR -a -r $MMDIR/nr_hugepages ]; then
-            hpcount=$(cat $MMDIR/nr_hugepages)
-            if [ "${hpcount}" -ne "${EXPECTHP}" ]; then
-                echo "Hugepages (${hpcount}) not as expected (${EXPECTHP})"
-                exit 1
-            else
-                echo "Hugepages ok (${hpcount})"
-            fi
-        fi
+        checkhp "hugepages-2048kB" "${EXPECT2MHP}"
+        checkhp "hugepages-1048576kB" "${EXPECT1GHP}"
     fi
 }
 
@@ -90,7 +101,8 @@ checkinitstyle() {
 }
 
 # a low amount of HP, works in isolation-machine and we can check if it appears
-echo "NR_2M_PAGES=$EXPECTHP" >> ${DPDK_CONF}
+echo "NR_2M_PAGES=$EXPECT2MHP" >> ${DPDK_CONF}
+echo "NR_1G_PAGES=$EXPECT1GHP" >> ${DPDK_CONF}
 
 # While we can't rely on any real device for DPDK tests in adt-* environments
 # we can expect all kind of broken config not to break it (would be detected
