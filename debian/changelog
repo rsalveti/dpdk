@@ -19,6 +19,8 @@ dpdk (2.2.0-0ubuntu4) xenial; urgency=medium
      - tabs/spaces to just spaces in d/dpdk-init and d/dpdk.init
      - few to tabs in d/rules
   * d/t/test-* now satisfy shellcheck
+  * d/* fix various comments and guides to be more readable
+  * d/dpdk-init and d/copyright updated copyright information
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 02 Mar 2016 13:32:33 +0100
 
