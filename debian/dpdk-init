@@ -112,11 +112,20 @@ bind_interfaces() {
             continue
         fi
         MOD=$(echo "$MOD" | tr '-' '_')
-        SYSFSPATH="/sys/bus/$BUS/devices/$ID/driver"
-        if [ ! -L "$SYSFSPATH" ]; then
+
+        SYSFSPATH="/sys/bus/$BUS/devices/$ID"
+        if [ ! -e "$SYSFSPATH" ]; then
             echo "WARNING: invalid pci ID '$ID' in $DPDK_INTERF" \
-                " - path '$SYSFSPATH' does not exist"
+                " - '$SYSFSPATH' does not exist"
             continue
+        fi
+        if [ -L "$SYSFSPATH/driver" ]; then
+            CUR=$(readlink "$SYSFSPATH/driver")
+            CUR=$(basename "$CUR")
+            CUR=$(echo "$CUR" | tr '-' '_')
+        else
+            # device existing, but currently unregistered
+            CUR=""
         fi
         CUR=$(readlink "/sys/bus/$BUS/devices/$ID/driver")
         CUR=$(basename "$CUR")
