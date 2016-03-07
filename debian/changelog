@@ -4,6 +4,7 @@ dpdk (2.2.0-0ubuntu4) xenial; urgency=medium
      - detect and warn about bad bus specifications
      - detect and warn about incomplete device specifications
      - detect and warn about non existing pci IDs
+     - avoid failing when working with unassigned devices
      - d/t/test-initscripts now testing various misconfigs
      - d/t/test-initscripts now also verifying service status
   * d/dpdk-init d/dpdk.conf now also support 1G hugepages (LP: #1551767):
