@@ -111,7 +111,6 @@ bind_interfaces() {
             echo "WARNING: incompatible bus '$BUS' in $DPDK_INTERF"
             continue
         fi
-        MOD=$(echo "$MOD" | tr '-' '_')
 
         SYSFSPATH="/sys/bus/$BUS/devices/$ID"
         if [ ! -e "$SYSFSPATH" ]; then
@@ -129,7 +128,6 @@ bind_interfaces() {
         fi
         CUR=$(readlink "/sys/bus/$BUS/devices/$ID/driver")
         CUR=$(basename "$CUR")
-        CUR=$(echo "$CUR" | tr '-' '_')
         if [ "$MOD" != "$CUR" ]; then
             modprobe -q "$MOD" || true
             # cloud img have no linux-image-extra initially (uip_pci_generic)

@@ -13,6 +13,12 @@ The runtime environment is not required to build applications that use
 DPDK but if those applications get packaged they should depend on the
 runtime.
 
+If you are running with virtio-pci network cards ensure that you don't have to
+reassign them to dpdk compatible drivers using /etc/dpdk/interfaces.
+Instead it is recommended you take care of blacklisting / whitelisting network
+cards to prevent DPDK from "stealing" your main connection used to control the
+guest.
+
 libdpdk0 contains the shared object needed to run a program in terms of symbol
 resolution, but none of the other runtime environment pieces.
 
