@@ -20,6 +20,10 @@ dpdk (2.2.0-0ubuntu4) xenial; urgency=medium
      - d/dpdk-init gracefully warns about missing modules.
      - d/control now suggests linux-image-generic.
      - d/dpdk.interfaces has a comment that makes the user aware.
+  * d/dpdk-init fix failure loading vfio-pci (LP: #1554214):
+     - d/dpdk-init no more converts "-" to "_" to make vfio-pci work
+     - d/dpdk.interfaces enhanced comments and updated examples
+     - d/dpdk-doc.README.debian got extra notes about using some modules
   * unify whitespace/tabs in packaging and scripts
      - tabs/spaces to just spaces in d/dpdk-init and d/dpdk.init.
      - few remaining spaces to tabs in d/rules
