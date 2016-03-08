@@ -131,9 +131,16 @@ bind_interfaces() {
         CUR=$(basename "$CUR")
         CUR=$(echo "$CUR" | tr '-' '_')
         if [ "$MOD" != "$CUR" ]; then
-            echo "Reassigning pci:$ID to $MOD"
             modprobe -q "$MOD" || true
-            $DPDK_BIND -b "$MOD" "$ID"
+            # cloud img have no linux-image-extra initially (uip_pci_generic)
+            # so check if the module is available (loadable/built in)
+            if [ -e "/sys/bus/pci/drivers/${MOD}" ]; then
+                echo "Reassigning pci:$ID to $MOD"
+                $DPDK_BIND -b "$MOD" "$ID"
+            else
+                echo "Warning: failed assigning pci:$ID," \
+                     " module $MOD not available"
+            fi
         else
             echo "pci:$ID already assigned to $MOD"
         fi

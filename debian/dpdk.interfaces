@@ -3,5 +3,8 @@
 # <id>		Device ID on the specified bus
 # <driver>	Driver to bind against (vfio-pci or uio-pci-generic)
 #
+# Be aware that those two drivers are part of linux-image-extra-<VERSION>
+# package in case you run into missing module issues.
+#
 # <bus> <id> <driver>
 # pci	0000:00:07.0	uio-pci-generic
