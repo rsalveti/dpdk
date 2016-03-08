@@ -1,24 +1,28 @@
 dpdk (2.2.0-0ubuntu4) xenial; urgency=medium
 
   * harden d/dpdk-init for configuration issues (LP: #1551601):
-     - detect and warn about bad bus specifications
-     - detect and warn about incomplete device specifications
-     - detect and warn about non existing pci IDs
-     - avoid failing when working with unassigned devices
-     - d/t/test-initscripts now testing various misconfigs
-     - d/t/test-initscripts now also verifying service status
+     - detect and warn about bad bus specifications.
+     - detect and warn about incomplete device specifications.
+     - detect and warn about non existing pci IDs.
+     - avoid failing when working with unassigned devices.
+     - d/t/test-initscripts now testing various misconfigs.
+     - d/t/test-initscripts now also verifying service status.
   * d/dpdk-init d/dpdk.conf now also support 1G hugepages (LP: #1551767):
-     - detect and warn if 1G pages are not available but configured
-     - d/t/test-initscripts now also testing hugepage allocations
+     - detect and warn if 1G pages are not available but configured.
+     - d/t/test-initscripts now also testing hugepage allocations.
      - d/dpdk.conf has an option to drop caches to incease the likeliness of
-       successful 1G hugepage allocations (default off)
+       successful 1G hugepage allocations (default off).
   * d/rules replaced uname -m with DEB_HOST_GNU_CPU (LP: #1551796):
   * fix testpmd to run without Xen environment (LP: #1551752):
      - upstream discussion is slow, but we need a fix now. We can drop this
        and change to the upstream solution when it is available.
+  * avoid errors due to missing modules (LP: #1554397):
+     - d/dpdk-init gracefully warns about missing modules.
+     - d/control now suggests linux-image-generic.
+     - d/dpdk.interfaces has a comment that makes the user aware.
   * unify whitespace/tabs in packaging and scripts
-     - tabs/spaces to just spaces in d/dpdk-init and d/dpdk.init
-     - few to tabs in d/rules
+     - tabs/spaces to just spaces in d/dpdk-init and d/dpdk.init.
+     - few remaining spaces to tabs in d/rules
   * d/t/test-* now satisfy shellcheck
   * d/* fix various comments and guides to be more readable
   * d/dpdk-init and d/copyright updated copyright information
