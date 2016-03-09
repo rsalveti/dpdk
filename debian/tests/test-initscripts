@@ -5,12 +5,14 @@ basedir=$(dirname "$0")
 . "${basedir}"/check-dpdk-supported-arch.sh
 
 # Overall that could require up to 1.2G for hugepages in the test environment
-EXPECT2MHP=100
+EXPECT2MHP=10
 # Some page sizes like e.g. 1G might not be available in all test environments
 # The test still configures 1 page of 1G size.
 # One of two things will happen, depending on the test environment:
-# - has 1G huge page size => they will be allocated and tested
-# - has no 1G huge page size => we check if it fails gracefully
+# - has 1G huge page size => they will tried to be allocated (usually env is
+#   too small, but we want to see it fail gracefully for that)
+#   We will not check for the 1G alloc, as we know it often fails in small adt's
+# - has no 1G huge page size (HW feature) => we check if it fails gracefully
 EXPECT1GHP=1
 
 DPDK_CONF="/etc/dpdk/dpdk.conf"
@@ -18,10 +20,11 @@ DPDK_INTERF="/etc/dpdk/interfaces"
 
 checkhp() {
     MMDIR="/sys/kernel/mm/hugepages/${1}"
+    EXPECTHP="${2}"
     if [ -d "$MMDIR" -a -r "$MMDIR/nr_hugepages" ]; then
         hpcount=$(cat "$MMDIR/nr_hugepages")
-        if [ "${hpcount}" -ne "${EXPECT2MHP}" ]; then
-            echo "Hugepages (${hpcount}) not as expected (${EXPECT2MHP})"
+        if [ "${hpcount}" -ne "${EXPECTHP}" ]; then
+            echo "Hugepages (${hpcount}) not as expected (${EXPECTHP})"
             exit 1
         else
             echo "Hugepages ok (${hpcount})"
@@ -64,7 +67,7 @@ checkstatus() {
     # check if setting HP worked
     if [ "${MPCOUNT}" -ne "0" ]; then
         checkhp "hugepages-2048kB" "${EXPECT2MHP}"
-        checkhp "hugepages-1048576kB" "${EXPECT1GHP}"
+        # We do not check 1G alloc, as it is known to be often not available
     fi
 }
 
