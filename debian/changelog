@@ -1,3 +1,12 @@
+dpdk (2.2.0-0ubuntu5) xenial; urgency=medium
+
+  * d/t/test-initscripts fix issues regarding 1G hugepages
+     - the dep8 was already taking care of 1G hugepages being not supported in
+       some environments. But it was failing when supported, but not enough
+       memory available.
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 09 Mar 2016 16:45:38 +0100
+
 dpdk (2.2.0-0ubuntu4) xenial; urgency=medium
 
   * harden d/dpdk-init for configuration issues (LP: #1551601):
