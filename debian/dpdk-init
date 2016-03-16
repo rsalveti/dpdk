@@ -85,6 +85,13 @@ _mount_hugetlbfs() {
     requested_hpgsz=$(get_kbytes "${1}")
     default_hpgsz=$(get_default_hpgsz)
 
+    # kernel might not support the requested size
+    if [ ! -d "/sys/kernel/mm/hugepages/hugepages-${requested_hpgsz}kB" ]; then
+        echo "WARNING: requested page size of ${requested_hpgsz}kB " \
+             "not supported by the kernel"
+        return 0
+    fi
+
     # special case if this is not the default huge page size
     if [ "${requested_hpgsz}" -ne "${default_hpgsz}" ]; then
         MNT="${MNT}-${requested_hpgsz}"
