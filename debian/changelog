@@ -1,10 +1,13 @@
 dpdk (2.2.0-0ubuntu6) UNRELEASED; urgency=medium
 
-  * d/dpdk-init fix handling of multiple huge page sizes (LP: #1557532)
+  * d/dpdk-init fix handling of multiple huge page sizes (LP: #1557532):
      - dpdk-init now ensures non-default-hugepage-size mountpoints are
        available as well.
      - extra mountpoints are only created if requested in dpdk.conf and not yet
        available (e.g. by the admin).
+  * d/dpdk-init fix issues with unassigned devices (LP: #1558485):
+     - dpdk-init no more checks /sys/.../driver of the device unconditionally
+     - removed the superfluous tr call in that path
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 16 Mar 2016 12:33:08 +0100
 
