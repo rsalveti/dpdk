@@ -198,13 +198,10 @@ bind_interfaces() {
         if [ -L "$SYSFSPATH/driver" ]; then
             CUR=$(readlink "$SYSFSPATH/driver")
             CUR=$(basename "$CUR")
-            CUR=$(echo "$CUR" | tr '-' '_')
         else
             # device existing, but currently unregistered
             CUR=""
         fi
-        CUR=$(readlink "/sys/bus/$BUS/devices/$ID/driver")
-        CUR=$(basename "$CUR")
         if [ "$MOD" != "$CUR" ]; then
             modprobe -q "$MOD" || true
             # cloud img have no linux-image-extra initially (uip_pci_generic)
