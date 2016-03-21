@@ -1,3 +1,9 @@
+Description: backport of dpdk 16.04-rc1 fix for LP: #1559981
+
+Forwarded: n/a (already upstream)
+Author: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Last-Update: 2016-03-20
+
 From 330aa319382aec9ea595f9ebcb9a3c44647ad66c Mon Sep 17 00:00:00 2001
 From: Julien Meunier <julien.meunier@6wind.com>
 Date: Thu, 4 Feb 2016 12:02:16 +0100

@@ -1,3 +1,9 @@
+Description: backport of dpdk 16.04-rc1 fix for LP: #1559981
+
+Forwarded: n/a (already upstream)
+Author: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Last-Update: 2016-03-20
+
 From 2186fff3675d4e774cecc8f918c05063e0367d28 Mon Sep 17 00:00:00 2001
 From: Bernard Iremonger <bernard.iremonger@intel.com>
 Date: Mon, 7 Mar 2016 11:40:40 +0000
