@@ -8,6 +8,11 @@ dpdk (2.2.0-0ubuntu6) UNRELEASED; urgency=medium
   * d/dpdk-init fix issues with unassigned devices (LP: #1558485):
      - dpdk-init no more checks /sys/.../driver of the device unconditionally
      - removed the superfluous tr call in that path
+  * d/p/ubuntu-fix-lpm-use-after-free-and-leak.patch lpm/lpm6 (LP: #1554009):
+     - lpm/lpm6 fix use after free on lpm[6]_create
+     - lpm/lpm6 fix missing frees of rules_tbl substructure
+     - lpm/lpm6 fix missing free of lpm due to early exit
+     - make RTE_LOG messages of the failed allocation unique
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 16 Mar 2016 12:33:08 +0100
 
