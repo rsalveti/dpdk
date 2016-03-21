@@ -13,6 +13,33 @@ dpdk (2.2.0-0ubuntu6) UNRELEASED; urgency=medium
      - lpm/lpm6 fix missing frees of rules_tbl substructure
      - lpm/lpm6 fix missing free of lpm due to early exit
      - make RTE_LOG messages of the failed allocation unique
+  * d/p/ubuntu-backport-[01-25] backport for stability (LP: #1559981):
+     - these will be in the following release and delta can then be dropped
+     - 24 fixes that do not change api/behaviour but fix serious issues
+        - 01 d3a274ce app/testpmd: handle SIGINT and SIGTERM
+        - 02 308df2bf Handle SIGINT and SIGTERM in l3fwd.
+        - 03 da82ee17 tools: fix unbinding failure handling
+        - 04 16c1814c tools: support Python 3 in bind script
+        - 05 bb9f4085 tools: support binding to built-in kernel modules
+        - 06 6e7caa1a eal/linux: support built-in kernel modules
+        - 07 86f36ff9 mempool: fix leak when creation fails
+        - 08 ca67ed28 vhost: fix leak of fds and mmaps
+        - 09 fa11a8a7 port: fix crash for ring writer nodrop
+        - 10 04f36690 port: fix crash for ethdev writer nodrop
+        - 11 c7a4ff80 i40e: fix overflow
+        - 12 097e920c i40e: fix inverted check for no refcount
+        - 13 330aa319 i40e: fix VLAN filtering
+        - 14 9f44dd3d i40e/base: fix missing check for stopped admin queue
+        - 15 8a880736 i40e/base: fix driver load failure
+        - 16 7656a546 fm10k: fix VLAN flag in scattered Rx
+        - 17 c6fb0e55 pcap: fix captured frame length
+        - 18 6e027237 bonding: fix detach of bonded device
+        - 19 df3e8ad7 bonding: fix detach of slave devices
+        - 20 786c990a bonding: copy entire config structure in mode 4
+        - 21 6698820b bonding: do not ignore multicast in mode 4
+        - 22 8997a10b bonding: fix active slaves with no primary
+        - 23 7a7122ed bonding: do not activate slave twice
+        - 24 2186fff3 bonding: fix crash when no slave device
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 16 Mar 2016 12:33:08 +0100
 
