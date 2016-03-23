@@ -42,6 +42,10 @@ dpdk (2.2.0-0ubuntu6) UNRELEASED; urgency=medium
         - 24 2186fff3 bonding: fix crash when no slave device
         - 25 c680a4a8 virtio: fix crash in statistics functions
         - 26 3b1e3e4e virtio: fix descriptors pointing to the same buffer
+  * d/p/ubuntu-backport-27-virtio-fix-restart.patch for (LP: #1559981):
+     - fixing re-initializing the ethdev as openvswitch-dpdk does in the
+       virtio pmd driver by moving the detection of already being initialized
+       from virtio_dev_close to virtio_dev_start/stop
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 16 Mar 2016 12:33:08 +0100
 
