@@ -1,4 +1,4 @@
-dpdk (2.2.0-0ubuntu6) UNRELEASED; urgency=medium
+dpdk (2.2.0-0ubuntu6) xenial; urgency=medium
 
   * d/dpdk-init fix handling of multiple huge page sizes (LP: #1557532):
      - dpdk-init now ensures non-default-hugepage-size mountpoints are
@@ -51,7 +51,7 @@ dpdk (2.2.0-0ubuntu6) UNRELEASED; urgency=medium
      - exporting CFLAGS for all dpdk build processes
      - dh_strip will automatically and create -dbgsym packages accordingly
 
- -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 16 Mar 2016 12:33:08 +0100
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 23 Mar 2016 10:34:50 +0100
 
 dpdk (2.2.0-0ubuntu5) xenial; urgency=medium
 
