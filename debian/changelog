@@ -47,6 +47,9 @@ dpdk (2.2.0-0ubuntu6) UNRELEASED; urgency=medium
        virtio pmd driver by moving the detection of already being initialized
        from virtio_dev_close to virtio_dev_start/stop
      - this will be in the following dpdk release and delta can then be dropped
+  * d/rules build with debuginfo (LP: #1560839):
+     - exporting CFLAGS for all dpdk build processes
+     - dh_strip will automatically and create -dbgsym packages accordingly
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 16 Mar 2016 12:33:08 +0100
 
