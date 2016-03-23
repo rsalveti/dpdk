@@ -29,3 +29,4 @@ ubuntu-backport-23-bonding-do-not-activate-slave-twice.patch
 ubuntu-backport-24-bonding-fix-crash-when-no-slave-device.patch
 ubuntu-backport-25-virtio-fix-crash-in-statistics-functions.patch
 ubuntu-backport-26-virtio-fix-descriptors-pointing-to-the-same-buffer.patch
+ubuntu-backport-27-virtio-fix-restart.patch
