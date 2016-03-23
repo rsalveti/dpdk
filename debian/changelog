@@ -13,9 +13,9 @@ dpdk (2.2.0-0ubuntu6) UNRELEASED; urgency=medium
      - lpm/lpm6 fix missing frees of rules_tbl substructure
      - lpm/lpm6 fix missing free of lpm due to early exit
      - make RTE_LOG messages of the failed allocation unique
-  * d/p/ubuntu-backport-[01-25] backport for stability (LP: #1559981):
+  * d/p/ubuntu-backport-[01-26] backport for stability (LP: #1559981):
      - these will be in the following release and delta can then be dropped
-     - 24 fixes that do not change api/behaviour but fix serious issues
+     - 26 fixes that do not change api/behaviour but fix serious issues
         - 01 d3a274ce app/testpmd: handle SIGINT and SIGTERM
         - 02 308df2bf Handle SIGINT and SIGTERM in l3fwd.
         - 03 da82ee17 tools: fix unbinding failure handling
@@ -40,6 +40,8 @@ dpdk (2.2.0-0ubuntu6) UNRELEASED; urgency=medium
         - 22 8997a10b bonding: fix active slaves with no primary
         - 23 7a7122ed bonding: do not activate slave twice
         - 24 2186fff3 bonding: fix crash when no slave device
+        - 25 c680a4a8 virtio: fix crash in statistics functions
+        - 26 3b1e3e4e virtio: fix descriptors pointing to the same buffer
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Wed, 16 Mar 2016 12:33:08 +0100
 
