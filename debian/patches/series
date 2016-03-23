@@ -27,3 +27,5 @@ ubuntu-backport-21-bonding-do-not-ignore-multicast-in-mode-4.patch
 ubuntu-backport-22-bonding-fix-active-slaves-with-no-primary.patch
 ubuntu-backport-23-bonding-do-not-activate-slave-twice.patch
 ubuntu-backport-24-bonding-fix-crash-when-no-slave-device.patch
+ubuntu-backport-25-virtio-fix-crash-in-statistics-functions.patch
+ubuntu-backport-26-virtio-fix-descriptors-pointing-to-the-same-buffer.patch
