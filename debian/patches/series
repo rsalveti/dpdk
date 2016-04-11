@@ -30,3 +30,7 @@ ubuntu-backport-24-bonding-fix-crash-when-no-slave-device.patch
 ubuntu-backport-25-virtio-fix-crash-in-statistics-functions.patch
 ubuntu-backport-26-virtio-fix-descriptors-pointing-to-the-same-buffer.patch
 ubuntu-backport-27-virtio-fix-restart.patch
+ubuntu-backport-28-lpm-fix-allocation-of-an-existing-object.patch
+ubuntu-backport-29-hash-fix-multi-process-support.patch
+ubuntu-backport-30-hash-fix-allocation-of-an-existing-object.patch
+ubuntu-backport-31-hash-fix-race-condition-at-creation.patch
