@@ -1,19 +1,19 @@
 dpdk (2.2.0-0ubuntu7) UNRELEASED; urgency=medium
 
   * Increase max_map_count after setting huge pages (LP: #1507921):
-    - The default value breaks shortly before 64GB as 2M huge pages for dpdk.
-    - Increase this value to base+2*#hugepages to avoid the on huge systems.
+    - The default value breaks just before 64GB as 2M huge pages used for dpdk.
+    - Increase this value to base+2*#hugepages to avoid issues on huge systems.
   * d/p/ubuntu-backport-[28-32] backports for stability (LP: #1568838):
-     - these will be in the following dpdk release and delta can then be dropped
-     - 5 fixes that do not change api/behaviour but fix serious issues
+     - these will be in the following dpdk release, delta can then be dropped.
+     - 5 fixes that do not change api/behaviour but fix serious issues.
         - 01 f82f705b lpm: fix allocation of an existing object
         - 02 f9bd3342 hash: fix multi-process support
         - 03 1aadacb5 hash: fix allocation of an existing object
         - 04 5d7bfb73 hash: fix race condition at creation
         - 05 fe671356 vfio: fix resource leak
   * d/p/ubuntu-backport-33-vhost-user-add-error-handling-for-fd-1023.patch
-     - this will be in the following dpdk release and delta can then be dropped
-     - fix crash on using fd's >1023 (LP: #1566874):
+     - this will be in the following dpdk release and delta can then be dropped.
+     - fixes a crash on using fd's >1023 (LP: #1566874)
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 11 Apr 2016 12:55:05 +0200
 
