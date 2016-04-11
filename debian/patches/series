@@ -34,5 +34,5 @@ ubuntu-backport-28-lpm-fix-allocation-of-an-existing-object.patch
 ubuntu-backport-29-hash-fix-multi-process-support.patch
 ubuntu-backport-30-hash-fix-allocation-of-an-existing-object.patch
 ubuntu-backport-31-hash-fix-race-condition-at-creation.patch
-ubuntu-backport-32-vhost-user-add-error-handling-for-fd-1023.patch
-ubuntu-backport-33-eal-fix-resource-leak.patch
+ubuntu-backport-32-eal-fix-resource-leak.patch
+ubuntu-backport-33-vhost-user-add-error-handling-for-fd-1023.patch
