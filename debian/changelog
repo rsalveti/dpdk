@@ -1,3 +1,9 @@
+dpdk (2.2.0-0ubuntu7) UNRELEASED; urgency=medium
+
+  * prepare changelog for next upload
+
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 11 Apr 2016 12:55:05 +0200
+
 dpdk (2.2.0-0ubuntu6) xenial; urgency=medium
 
   * d/dpdk-init fix handling of multiple huge page sizes (LP: #1557532):
