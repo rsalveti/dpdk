@@ -169,9 +169,11 @@ setup_hugepages() {
     _setup_hugepages "hugepages-1048576kB" "$NR_1G_PAGES"
 
     # dpdk uses 2*#hugepages mappings, increase for huge systems LP #1507921
-    max_map_count=$(awk -v pad=65530 '{tot+=$1}END{print tot*2+pad}' \
-        /sys/devices/system/node/node*/hugepages/hugepages-*/nr_hugepages)
-    sysctl -q vm.max_map_count="${max_map_count:-65530}"
+    if [ -d /sys/kernel/mm/hugepages ]; then
+        max_map_count=$(awk -v pad=65530 '{tot+=$1}END{print tot*2+pad}' \
+            /sys/kernel/mm/hugepages/hugepages-*/nr_hugepages)
+        sysctl -q vm.max_map_count="${max_map_count:-65530}"
+    fi
 
     return 0
 }
