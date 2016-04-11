@@ -1,5 +1,7 @@
 Description: backport of dpdk 16.04-rc fix for LP: #1568838
 
+Minimal modification to adapt to the not yet existing unified RTE_ARCH_X86
+
 Forwarded: n/a (already upstream)
 Author: Christian Ehrhardt <christian.ehrhardt@canonical.com>
 Last-Update: 2016-04-11
@@ -52,11 +54,12 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
 ===================================================================
 --- dpdk.orig/lib/librte_hash/rte_cuckoo_hash.c
 +++ dpdk/lib/librte_hash/rte_cuckoo_hash.c
-@@ -102,6 +102,63 @@ EAL_REGISTER_TAILQ(rte_hash_tailq)
+@@ -102,6 +102,64 @@ EAL_REGISTER_TAILQ(rte_hash_tailq)
  
  #define LCORE_CACHE_SIZE		8
  
-+#if defined(RTE_ARCH_X86) || defined(RTE_ARCH_ARM64)
++#if defined(RTE_ARCH_X86_64) || defined(RTE_ARCH_I686) ||\
++	 defined(RTE_ARCH_X86_X32) || defined(RTE_ARCH_ARM64)
 +/*
 + * All different options to select a key compare function,
 + * based on the key size and custom function.
@@ -116,7 +119,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  struct lcore_cache {
  	unsigned len; /**< Cache len */
  	void *objs[LCORE_CACHE_SIZE]; /**< Cache objects */
-@@ -115,7 +172,10 @@ struct rte_hash {
+@@ -115,7 +173,10 @@ struct rte_hash {
  	uint32_t key_len;               /**< Length of hash key. */
  	rte_hash_function hash_func;    /**< Function used to calculate hash. */
  	uint32_t hash_func_init_val;    /**< Init value used by hash_func. */
@@ -128,7 +131,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  	uint32_t bucket_bitmask;        /**< Bitmask for getting bucket index
  						from hash signature. */
  	uint32_t key_entry_size;         /**< Size of each key entry. */
-@@ -187,7 +247,16 @@ rte_hash_find_existing(const char *name)
+@@ -187,7 +248,16 @@ rte_hash_find_existing(const char *name)
  
  void rte_hash_set_cmp_func(struct rte_hash *h, rte_hash_cmp_eq_t func)
  {
@@ -146,7 +149,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  }
  
  struct rte_hash *
-@@ -292,35 +361,35 @@ rte_hash_create(const struct rte_hash_pa
+@@ -292,35 +362,35 @@ rte_hash_create(const struct rte_hash_pa
  	/* Select function to compare keys */
  	switch (params->key_len) {
  	case 16:
@@ -192,7 +195,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  #endif
  
  	snprintf(ring_name, sizeof(ring_name), "HT_%s", params->name);
-@@ -594,7 +663,7 @@ __rte_hash_add_key_with_hash(const struc
+@@ -594,7 +664,7 @@ __rte_hash_add_key_with_hash(const struc
  				prim_bkt->signatures[i].alt == alt_hash) {
  			k = (struct rte_hash_key *) ((char *)keys +
  					prim_bkt->key_idx[i] * h->key_entry_size);
@@ -201,7 +204,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  				/* Enqueue index of free slot back in the ring. */
  				enqueue_slot_back(h, cached_free_slots, slot_id);
  				/* Update data */
-@@ -614,7 +683,7 @@ __rte_hash_add_key_with_hash(const struc
+@@ -614,7 +684,7 @@ __rte_hash_add_key_with_hash(const struc
  				sec_bkt->signatures[i].current == alt_hash) {
  			k = (struct rte_hash_key *) ((char *)keys +
  					sec_bkt->key_idx[i] * h->key_entry_size);
@@ -210,7 +213,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  				/* Enqueue index of free slot back in the ring. */
  				enqueue_slot_back(h, cached_free_slots, slot_id);
  				/* Update data */
-@@ -725,7 +794,7 @@ __rte_hash_lookup_with_hash(const struct
+@@ -725,7 +795,7 @@ __rte_hash_lookup_with_hash(const struct
  				bkt->signatures[i].sig != NULL_SIGNATURE) {
  			k = (struct rte_hash_key *) ((char *)keys +
  					bkt->key_idx[i] * h->key_entry_size);
@@ -219,7 +222,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  				if (data != NULL)
  					*data = k->pdata;
  				/*
-@@ -748,7 +817,7 @@ __rte_hash_lookup_with_hash(const struct
+@@ -748,7 +818,7 @@ __rte_hash_lookup_with_hash(const struct
  				bkt->signatures[i].alt == sig) {
  			k = (struct rte_hash_key *) ((char *)keys +
  					bkt->key_idx[i] * h->key_entry_size);
@@ -228,7 +231,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  				if (data != NULL)
  					*data = k->pdata;
  				/*
-@@ -840,7 +909,7 @@ __rte_hash_del_key_with_hash(const struc
+@@ -840,7 +910,7 @@ __rte_hash_del_key_with_hash(const struc
  				bkt->signatures[i].sig != NULL_SIGNATURE) {
  			k = (struct rte_hash_key *) ((char *)keys +
  					bkt->key_idx[i] * h->key_entry_size);
@@ -237,7 +240,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  				remove_entry(h, bkt, i);
  
  				/*
-@@ -863,7 +932,7 @@ __rte_hash_del_key_with_hash(const struc
+@@ -863,7 +933,7 @@ __rte_hash_del_key_with_hash(const struc
  				bkt->signatures[i].sig != NULL_SIGNATURE) {
  			k = (struct rte_hash_key *) ((char *)keys +
  					bkt->key_idx[i] * h->key_entry_size);
@@ -246,7 +249,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  				remove_entry(h, bkt, i);
  
  				/*
-@@ -980,7 +1049,7 @@ lookup_stage3(unsigned idx, const struct
+@@ -980,7 +1050,7 @@ lookup_stage3(unsigned idx, const struct
  	unsigned hit;
  	unsigned key_idx;
  
