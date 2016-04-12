@@ -145,7 +145,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
 ===================================================================
 --- dpdk.orig/lib/librte_hash/rte_cuckoo_hash.c
 +++ dpdk/lib/librte_hash/rte_cuckoo_hash.c
-@@ -299,8 +299,10 @@ rte_hash_create(const struct rte_hash_pa
+@@ -300,8 +300,10 @@ rte_hash_create(const struct rte_hash_pa
  
  	/* Guarantee there's no existing */
  	h = rte_hash_find_existing(params->name);

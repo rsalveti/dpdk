@@ -29,7 +29,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
 ===================================================================
 --- dpdk.orig/lib/librte_hash/rte_cuckoo_hash.c
 +++ dpdk/lib/librte_hash/rte_cuckoo_hash.c
-@@ -295,19 +295,48 @@ rte_hash_create(const struct rte_hash_pa
+@@ -296,19 +296,48 @@ rte_hash_create(const struct rte_hash_pa
  	if (params->extra_flag & RTE_HASH_EXTRA_FLAGS_TRANS_MEM_SUPPORT)
  		hw_trans_mem_support = 1;
  
@@ -83,7 +83,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  	}
  
  	h = (struct rte_hash *)rte_zmalloc_socket(hash_name, sizeof(struct rte_hash),
-@@ -315,7 +344,7 @@ rte_hash_create(const struct rte_hash_pa
+@@ -316,7 +345,7 @@ rte_hash_create(const struct rte_hash_pa
  
  	if (h == NULL) {
  		RTE_LOG(ERR, HASH, "memory allocation failed\n");
@@ -92,7 +92,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  	}
  
  	const uint32_t num_buckets = rte_align32pow2(params->entries)
-@@ -327,23 +356,10 @@ rte_hash_create(const struct rte_hash_pa
+@@ -328,23 +357,10 @@ rte_hash_create(const struct rte_hash_pa
  
  	if (buckets == NULL) {
  		RTE_LOG(ERR, HASH, "memory allocation failed\n");
@@ -117,7 +117,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  	const uint64_t key_tbl_size = (uint64_t) key_entry_size * num_key_slots;
  
  	k = rte_zmalloc_socket(NULL, key_tbl_size,
-@@ -351,7 +367,7 @@ rte_hash_create(const struct rte_hash_pa
+@@ -352,7 +368,7 @@ rte_hash_create(const struct rte_hash_pa
  
  	if (k == NULL) {
  		RTE_LOG(ERR, HASH, "memory allocation failed\n");
@@ -126,7 +126,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  	}
  
  /*
-@@ -394,14 +410,6 @@ rte_hash_create(const struct rte_hash_pa
+@@ -395,14 +411,6 @@ rte_hash_create(const struct rte_hash_pa
  	h->cmp_jump_table_idx = KEY_OTHER_BYTES;
  #endif
  
@@ -141,7 +141,7 @@ Index: dpdk/lib/librte_hash/rte_cuckoo_hash.c
  	if (hw_trans_mem_support) {
  		h->local_free_slots = rte_zmalloc_socket(NULL,
  				sizeof(struct lcore_cache) * RTE_MAX_LCORE,
-@@ -428,13 +436,15 @@ rte_hash_create(const struct rte_hash_pa
+@@ -429,13 +437,15 @@ rte_hash_create(const struct rte_hash_pa
  	for (i = 1; i < params->entries + 1; i++)
  		rte_ring_sp_enqueue(r, (void *)((uintptr_t) i));
  
