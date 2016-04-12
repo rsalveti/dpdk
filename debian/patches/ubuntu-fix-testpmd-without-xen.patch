@@ -18,9 +18,9 @@ But I see no reason to go so complex and instead the patch goes the
 simple and more readable way of just falling back to the normal
 allocation if the xen based allocation failed.
 
-Forwarded: Yes
+Forwarded: Yes - Accepted as bece7b6cf6849331c1817e1034c03fab251952a7
 Author: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Last-Update: 2016-03-01
+Last-Update: 2016-04-12
 
 Index: dpdk/app/test-pmd/testpmd.c
 ===================================================================
