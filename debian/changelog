@@ -1,7 +1,8 @@
 dpdk (2.2.0-0ubuntu7) xenial; urgency=medium
 
   * Increase max_map_count after setting huge pages (LP: #1507921):
-    - The default value breaks just before 64GB as 2M huge pages used for dpdk.
+    - The default config of 65530 would cause issues as soon as about 64GB or
+      more are used as 2M huge pages for dpdk.
     - Increase this value to base+2*#hugepages to avoid issues on huge systems.
   * d/p/ubuntu-backport-[28-32,34-35] backports for stability (LP: #1568838):
      - these will be in the 16.04 dpdk release, delta can then be dropped.
