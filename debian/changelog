@@ -1,4 +1,4 @@
-dpdk (2.2.0-0ubuntu7) UNRELEASED; urgency=medium
+dpdk (2.2.0-0ubuntu7) xenial; urgency=medium
 
   * Increase max_map_count after setting huge pages (LP: #1507921):
     - The default value breaks just before 64GB as 2M huge pages used for dpdk.
@@ -22,7 +22,7 @@ dpdk (2.2.0-0ubuntu7) UNRELEASED; urgency=medium
      - folded into the fix that generally covers the lpm allocation and free
        weaknesses already (also there this particular mistake was added)
 
- -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 11 Apr 2016 12:55:05 +0200
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Tue, 12 Apr 2016 16:13:47 +0200
 
 dpdk (2.2.0-0ubuntu6) xenial; urgency=medium
 
