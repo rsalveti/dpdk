@@ -36,3 +36,5 @@ ubuntu-backport-30-hash-fix-allocation-of-an-existing-object.patch
 ubuntu-backport-31-hash-fix-race-condition-at-creation.patch
 ubuntu-backport-32-eal-fix-resource-leak.patch
 ubuntu-backport-33-vhost-user-add-error-handling-for-fd-1023.patch
+ubuntu-backport-34-port-fix-ring-writer-buffer-overflow.patch
+ubuntu-backport-35-port-fix-burst-size-mask-type.patch
