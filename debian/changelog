@@ -4,7 +4,7 @@ dpdk (2.2.0-0ubuntu7) UNRELEASED; urgency=medium
     - The default value breaks just before 64GB as 2M huge pages used for dpdk.
     - Increase this value to base+2*#hugepages to avoid issues on huge systems.
   * d/p/ubuntu-backport-[28-32,34-35] backports for stability (LP: #1568838):
-     - these will be in the following dpdk release, delta can then be dropped.
+     - these will be in the 16.04 dpdk release, delta can then be dropped.
      - 5 fixes that do not change api/behaviour but fix serious issues.
         - 01 f82f705b lpm: fix allocation of an existing object
         - 02 f9bd3342 hash: fix multi-process support
@@ -14,7 +14,7 @@ dpdk (2.2.0-0ubuntu7) UNRELEASED; urgency=medium
         - 06 356445f9 port: fix ring writer buffer overflow
         - 07 52f7a5ae port: fix burst size mask type
   * d/p/ubuntu-backport-33-vhost-user-add-error-handling-for-fd-1023.patch
-     - this will be in the following dpdk release and delta can then be dropped.
+     - this will likely be in dpdk release 16.07 and delta can then be dropped.
      - fixes a crash on using fd's >1023 (LP: #1566874)
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 11 Apr 2016 12:55:05 +0200
