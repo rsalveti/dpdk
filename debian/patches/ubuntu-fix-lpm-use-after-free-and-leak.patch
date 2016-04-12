@@ -10,15 +10,19 @@ in the lpm/lpm6 code.
 
 Along that is also makes the RTE_LOG messages of the failed allocation unique.
 
-Forwarded: Yes
+The patches are upstream accepted in 4 pieces now.
+This combines them plus a minor tweak currently in review at
+http://dpdk.org/dev/patchwork/patch/12025/
+
+Forwarded: Yes - accepted 768f0e45 732a5b5c 34c4b584 d4c18f0a
 Author: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Last-Update: 2016-03-20
+Last-Update: 2016-04-12
 
 Index: dpdk/lib/librte_lpm/rte_lpm.c
 ===================================================================
 --- dpdk.orig/lib/librte_lpm/rte_lpm.c
 +++ dpdk/lib/librte_lpm/rte_lpm.c
-@@ -236,15 +236,13 @@ rte_lpm_free(struct rte_lpm *lpm)
+@@ -236,13 +236,10 @@ rte_lpm_free(struct rte_lpm *lpm)
  		if (te->data == (void *) lpm)
  			break;
  	}
@@ -33,10 +37,7 @@ Index: dpdk/lib/librte_lpm/rte_lpm.c
 -
  	rte_rwlock_write_unlock(RTE_EAL_TAILQ_RWLOCK);
  
-+	rte_free(lpm->rules_tbl);
  	rte_free(lpm);
- 	rte_free(te);
- }
 Index: dpdk/lib/librte_lpm/rte_lpm6.c
 ===================================================================
 --- dpdk.orig/lib/librte_lpm/rte_lpm6.c
