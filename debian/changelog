@@ -16,6 +16,11 @@ dpdk (2.2.0-0ubuntu7) UNRELEASED; urgency=medium
   * d/p/ubuntu-backport-33-vhost-user-add-error-handling-for-fd-1023.patch
      - this will likely be in dpdk release 16.07 and delta can then be dropped.
      - fixes a crash on using fd's >1023 (LP: #1566874)
+  * d/p/ubuntu-fix-lpm-use-after-free-and-leak.patch fix lpm_free (LP: #1569375)
+     - the old patches had an error freeing a pointer which had no meta data
+     - that lead to a crash on any lpm_free call
+     - folded into the fix that generally covers the lpm allocation and free
+       weaknesses already (also there this particular mistake was added)
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 11 Apr 2016 12:55:05 +0200
 
