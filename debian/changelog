@@ -1,3 +1,13 @@
+dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
+
+  * Adding support for ARM64:
+    - debian/control: adding arm64 to the supported architecture list
+    - debian/rules: supporting dpdk config and machine for arm64
+    - d/p/ubuntu-fix-xenvirt-support-dynamic-page-size.patch: fix build
+      failure on arm64
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@linaro.org>  Mon, 18 Apr 2016 00:09:22 -0300
+
 dpdk (2.2.0-0ubuntu7) xenial; urgency=medium
 
   * Increase max_map_count after setting huge pages (LP: #1507921):

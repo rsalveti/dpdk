@@ -21,7 +21,13 @@ export EXTRA_CFLAGS = -g
 # package maintainers to append LDFLAGS
 #export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
 
-DPDK_CONFIG  = "$(DEB_HOST_GNU_CPU)-native-linuxapp-gcc"
+ifneq (,$(filter $(DEB_HOST_ARCH), arm64))
+DPDK_CONFIG = "arm64-armv8a-linuxapp-gcc"
+RTE_MACHINE = "armv8a"
+else
+DPDK_CONFIG = "$(DEB_HOST_GNU_CPU)-native-linuxapp-gcc"
+RTE_MACHINE = "default"
+endif
 DPDK_STATIC_DIR = "debian/build/static-root"
 DPDK_SHARED_DIR = "debian/build/shared-root"
 
@@ -33,7 +39,7 @@ clean:
 build-config:
 	dh_testdir
 	$(MAKE) O=$(DPDK_STATIC_DIR) T=$(DPDK_CONFIG) config
-	sed -ri -e 's,(RTE_MACHINE=).*,\1"default",' \
+	sed -ri -e 's,(RTE_MACHINE=).*,\1$(RTE_MACHINE),' \
 	        -e 's,(RTE_NEXT_ABI=).*,\1n,' \
 	        -e 's,(RTE_APP_TEST=).*,\1n,' \
 	        -e 's,(CONFIG_RTE_EAL_IGB_UIO=).*,\1n,' \

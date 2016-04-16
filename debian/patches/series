@@ -3,6 +3,7 @@ ubuntu-combined-shared-lib-abiversion.patch
 ubuntu-fix-library-linkage.patch
 ubuntu-fix-testpmd-without-xen.patch
 ubuntu-fix-lpm-use-after-free-and-leak.patch
+ubuntu-fix-xenvirt-support-dynamic-page-size.patch
 ubuntu-backport-01-app-testpmd-handle-SIGINT-and-SIGTERM.patch
 ubuntu-backport-02-examples-l3fwd-handle-SIGINT-and-SIGTERM.patch
 ubuntu-backport-03-tools-fix-unbinding-failure-handling.patch

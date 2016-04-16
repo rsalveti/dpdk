@@ -25,7 +25,7 @@ Vcs-Browser: https://code.launchpad.net/~ubuntu-server/dpdk/+git/dpdk
 
 Package: dpdk
 Section: devel
-Architecture: amd64 i386
+Architecture: amd64 arm64 i386
 Depends: libdpdk0 (= ${binary:Version}),
          lsb-base (>= 3.2-14),
          ${misc:Depends},
@@ -39,7 +39,7 @@ Description: Data Plane Development Kit (runtime)
 
 Package: dpdk-dev
 Section: devel
-Architecture: amd64 i386
+Architecture: amd64 arm64 i386
 Depends: libdpdk0 (= ${binary:Version}), ${misc:Depends}
 Description: Data Plane Development Kit (development files)
  DPDK is a set of libraries for fast packet processing. Applications run
@@ -57,7 +57,7 @@ Description: Data Plane Development Kit (documentation)
  This package contains the complete set of documentation and guides.
 
 Package: libdpdk0
-Architecture: amd64 i386
+Architecture: amd64 arm64 i386
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -69,7 +69,7 @@ Description: Data Plane Development Kit (runtime libraries)
 
 Package: libdpdk-dev
 Section: libdevel
-Architecture: amd64 i386
+Architecture: amd64 arm64 i386
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: libdpdk0 (= ${binary:Version}), ${misc:Depends}
