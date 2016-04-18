@@ -24,9 +24,11 @@ export EXTRA_CFLAGS = -g
 ifneq (,$(filter $(DEB_HOST_ARCH), arm64))
 DPDK_CONFIG = "arm64-armv8a-linuxapp-gcc"
 RTE_MACHINE = "armv8a"
+RTE_TARGET = "arm64-armv8a-linuxapp-gcc"
 else
 DPDK_CONFIG = "$(DEB_HOST_GNU_CPU)-native-linuxapp-gcc"
 RTE_MACHINE = "default"
+RTE_TARGET = "$(DEB_HOST_GNU_CPU)-default-linuxapp-gcc"
 endif
 DPDK_STATIC_DIR = "debian/build/static-root"
 DPDK_SHARED_DIR = "debian/build/shared-root"
@@ -140,6 +142,8 @@ binary-arch:
 	$(MAKE) O=$(DPDK_SHARED_DIR) prefix=/usr \
 		DESTDIR=debian/dpdk-dev install-sdk
 	cp $(DPDK_SHARED_DIR)/.config debian/dpdk-dev/usr/share/dpdk/config
+	sed -e 's/SDK_TARGET/$(RTE_TARGET)/' debian/dpdk-sdk-env.sh.in > \
+		debian/dpdk-dev/usr/share/dpdk/dpdk-sdk-env.sh
 	# Package: libdpdk-dev (bare headers and static devel libs)
 	mkdir -p debian/libdpdk-dev/$(LIBDIR)
 	# NOTE: linker script - insert basenames loop for all .a's
