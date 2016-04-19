@@ -40,3 +40,4 @@ ubuntu-backport-34-port-fix-ring-writer-buffer-overflow.patch
 ubuntu-backport-35-port-fix-burst-size-mask-type.patch
 ubuntu-backport-36-pci-identify-devices-not-managed-by-any-kernel-drive.patch
 ubuntu-backport-37-pci-ignore-devices-already-managed-in-Linux-when-map.patch
+ubuntu-backport-38-dpdk-dev-Memory-leak-when-adding-removing-vhost_user-ports.patch
