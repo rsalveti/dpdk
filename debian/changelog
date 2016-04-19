@@ -8,6 +8,8 @@ dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
   * d/p/ubuntu-backport-38... fix for memory leak (LP: #1570466):
     - call vhost_destroy_device on removing vhost user ports to fix memory leak
     - this likely is in the dpdk 16.07 release and delta can then be dropped
+  * d/dpdk-doc.README.Debian update for changes in virtio-pci handling
+  * d/dpdk.interfaces update for changes in virtio-pci handling
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Tue, 19 Apr 2016 08:40:10 +0200
 
