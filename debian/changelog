@@ -4,6 +4,8 @@ dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
     - don't let DPDK initialize virtio devices still in use by the kernel
     - this avoids conflicts between kernel and dpdk usage of those devices
     - an admin now has to unbind/bind devices as on physical hardware
+  * d/p/ubuntu-backport-38... fix for memory leak (LP: #1570466):
+    - call vhost_destroy_device on removing vhost user ports to fix memory leak
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Tue, 19 Apr 2016 08:40:10 +0200
 
