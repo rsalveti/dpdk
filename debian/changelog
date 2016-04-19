@@ -1,6 +1,9 @@
 dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
 
-  * prepare for 2.2.0-0ubuntu8
+  * d/p/ubuntu-backport-[36-37] fix virtio issues (LP: #1570195):
+    - don't let DPDK initialize virtio devices still in use by the kernel
+    - this avoids conflicts between kernel and dpdk usage of those devices
+    - an admin now has to unbind/bind devices as on physical hardware
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Tue, 19 Apr 2016 08:40:10 +0200
 
