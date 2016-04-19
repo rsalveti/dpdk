@@ -4,6 +4,7 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
                dh-python,
                dh-systemd (>= 1.5),
+               dkms,
                doxygen,
                graphviz,
                inkscape,
@@ -55,6 +56,19 @@ Description: Data Plane Development Kit (documentation)
  DPDK is a set of libraries for fast packet processing. Applications run
  in user-space and communicate directly with dedicated network interfaces.
  This package contains the complete set of documentation and guides.
+
+Package: dpdk-igb-uio-dkms
+Section: kernel
+Architecture: amd64 arm64 i386
+Depends: dkms,
+         dpdk-dev (= ${binary:Version}),
+         libdpdk-dev (= ${binary:Version}),
+         make,
+         ${misc:Depends}
+Description: Data Plane Development Kit (igb uio dkms)
+ DPDK is a set of libraries for fast packet processing. Applications run
+ in user-space and communicate directly with dedicated network interfaces.
+ This package contains the source code for the igb_uio kernel module.
 
 Package: libdpdk0
 Architecture: amd64 arm64 i386

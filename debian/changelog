@@ -5,6 +5,7 @@ dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
     - debian/rules: supporting dpdk config and machine for arm64
     - d/p/ubuntu-fix-xenvirt-support-dynamic-page-size.patch: fix build
       failure on arm64
+  * Adding DKMS package for igb_uio
 
  -- Ricardo Salveti de Araujo <ricardo.salveti@linaro.org>  Mon, 18 Apr 2016 00:09:22 -0300
 

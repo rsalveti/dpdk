@@ -3,6 +3,8 @@
 # output every command that modifies files on the build system.
 #export DH_VERBOSE = 1
 
+VERSION := $(shell dpkg-parsechangelog | sed -nr '/^Version:/s/Version: (.*:)?(.*)-(.*)/\2/p')
+
 # see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
 DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/default.mk
@@ -153,6 +155,11 @@ binary-arch:
 	mv debian/dpdk-dev/usr/include/dpdk debian/libdpdk-dev/usr/include/
 	# NOTE: linker script - package instead of removing all sublibs
 	rm -rf debian/dpdk/usr/lib*
+	# Package: dpdk-igb-uio-dkms
+	mkdir -p debian/dpdk-igb-uio-dkms/usr/src/dpdk-igb-uio-$(VERSION)
+	cp lib/librte_eal/linuxapp/igb_uio/* \
+		debian/dpdk-igb-uio-dkms/usr/src/dpdk-igb-uio-$(VERSION)
+	dh_dkms -V $(VERSION)
 	dh_python2
 	dh_perl
 	dh_link
