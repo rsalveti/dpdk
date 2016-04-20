@@ -9,6 +9,7 @@ dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
   * Making libdpdk-dev depend on libpcap-dev and libxen-dev, as patch
     ubuntu-fix-library-linkage adds -lpcap and -lxenstore at the default
     linker call definition
+  * Build static dpdk with -fPIC so it can be used by shared libraries
 
  -- Ricardo Salveti de Araujo <ricardo.salveti@linaro.org>  Mon, 18 Apr 2016 00:09:22 -0300
 

@@ -15,7 +15,8 @@ DEB_HOST_GNU_CPU := $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 # build with debug symbols, dh_strip will create -dgbsyms packages by that
-export EXTRA_CFLAGS = -g
+# also export -fPIC for the static build (already used by shared by default)
+export EXTRA_CFLAGS = -g -fPIC
 
 # see ENVIRONMENT in dpkg-buildflags(1)
 # package maintainers to append CFLAGS
