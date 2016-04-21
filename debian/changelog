@@ -1,5 +1,6 @@
 dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
 
+  [ Ricardo Salveti ]
   * Adding support for ARM64:
     - debian/control: adding arm64 to the supported architecture list
     - debian/rules: supporting dpdk config and machine for arm64
@@ -11,6 +12,9 @@ dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
     linker call definition
   * Build static dpdk with -fPIC so it can be used by shared libraries
   * debian/copyright: fixing Canonical's copyright entry
+
+  [ Anders Roxell ]
+  * debian/dpdk.init: add remote_fs (lintian)
 
  -- Ricardo Salveti de Araujo <ricardo.salveti@linaro.org>  Mon, 18 Apr 2016 00:09:22 -0300
 
