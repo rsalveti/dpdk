@@ -10,6 +10,13 @@ dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
     - this likely is in the dpdk 16.07 release and delta can then be dropped
   * d/dpdk-doc.README.Debian update for changes in virtio-pci handling
   * d/dpdk.interfaces update for changes in virtio-pci handling
+  * d/p/ubuntu-fix-vhost-user-socket-permission.patch fox (LP: #1546565):
+    - when vhost_user sockets are created they are owner:group of the process
+    - the DPDK api to create those has no way to specify owner:group
+    - to fix that without breaking the API and potential workaround code in
+      consumers of the library like openvswitch 2.6 for example. This patch
+      adds an EAL commandline option to specify user:group created vhost_user
+      sockets should have.
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Tue, 19 Apr 2016 08:40:10 +0200
 
