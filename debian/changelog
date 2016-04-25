@@ -1,4 +1,4 @@
-dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
+dpdk (2.2.0-0ubuntu8) xenial; urgency=medium
 
   * d/p/ubuntu-backport-[36-37] fix virtio issues (LP: #1570195):
     - don't let DPDK initialize virtio devices still in use by the kernel
@@ -18,7 +18,7 @@ dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
       adds an EAL commandline option to specify user:group created vhost_user
       sockets should have.
 
- -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Tue, 19 Apr 2016 08:40:10 +0200
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 25 Apr 2016 11:42:40 +0200
 
 dpdk (2.2.0-0ubuntu7) xenial; urgency=medium
 
