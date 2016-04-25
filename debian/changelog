@@ -5,11 +5,11 @@ dpdk (2.2.0-0ubuntu8) UNRELEASED; urgency=medium
     - this avoids conflicts between kernel and dpdk usage of those devices
     - an admin now has to unbind/bind devices as on physical hardware
     - this is in the dpdk 16.04 release and delta can then be dropped
+    - d/dpdk-doc.README.Debian update for changes in virtio-pci handling
+    - d/dpdk.interfaces update for changes in virtio-pci handling
   * d/p/ubuntu-backport-38... fix for memory leak (LP: #1570466):
     - call vhost_destroy_device on removing vhost user ports to fix memory leak
     - this likely is in the dpdk 16.07 release and delta can then be dropped
-  * d/dpdk-doc.README.Debian update for changes in virtio-pci handling
-  * d/dpdk.interfaces update for changes in virtio-pci handling
   * d/p/ubuntu-fix-vhost-user-socket-permission.patch fox (LP: #1546565):
     - when vhost_user sockets are created they are owner:group of the process
     - the DPDK api to create those has no way to specify owner:group
