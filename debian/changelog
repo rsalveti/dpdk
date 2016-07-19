@@ -59,7 +59,9 @@ dpdk (16.04-1) UNRELEASED; urgency=medium
   * debian/copyright: fixing Canonical's copyright entry
   * Renaming symbol files so they can match the right package
   * Drop the arch specific symbol files, as they are identical
-  * debian/rules: allow all make commands to be verbose
+  * debian/rules:
+    - Allow all make commands to be verbose
+    - Fix libdpdk-dev headers path
 
   [ Anders Roxell ]
   * debian/dpdk.init: add remote_fs (lintian)
