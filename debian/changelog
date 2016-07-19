@@ -62,6 +62,8 @@ dpdk (16.04-1) UNRELEASED; urgency=medium
   * debian/rules:
     - Allow all make commands to be verbose
     - Fix libdpdk-dev headers path
+  * Renaming package librte-pmd-e10001 to librte-pmd-e1000-1, to avoid mixing
+    package name with soversion (lintian package-name-doesnt-match-sonames)
 
   [ Anders Roxell ]
   * debian/dpdk.init: add remote_fs (lintian)
