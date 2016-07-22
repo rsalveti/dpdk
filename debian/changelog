@@ -68,6 +68,7 @@ dpdk (16.04-1) UNRELEASED; urgency=medium
   [ Anders Roxell ]
   * debian/dpdk.init: add remote_fs (lintian)
   * debian/control: fixing week-library-dev-dependency (lintian)
+  * debian/control: add libpcap-dev to libdpdk-dev's Depends list
 
  -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Tue, 17 May 2016 14:23:21 +0200
 
